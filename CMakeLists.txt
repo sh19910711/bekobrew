@@ -4,6 +4,7 @@ PROJECT(bekobrew)
 FILE(GLOB SOURCES src/*.c src/*/*.c)
 INCLUDE_DIRECTORIES(src/)
 FILE(GLOB JANSSON_SOURCES vendor/jansson/src/*.c)
+INCLUDE_DIRECTORIES(vendor/jansson)
 INCLUDE_DIRECTORIES(vendor/jansson/src)
 ADD_EXECUTABLE(bekobrew ${SOURCES})
 
