@@ -5,10 +5,6 @@ static struct command commands[] = {
   { "help", cmd_help },
 };
 
-static int start_with_hyphen(const char* cmd) {
-  return cmd[0] == '-';
-}
-
 static struct command* find_command(const char* cmd_name) {
   int i;
   for (i = 0; i < ARRAY_SIZE(commands); i++) {
@@ -68,7 +64,6 @@ int main(int argc, char** _argv) {
   } else {
     help(argc, argv);
   }
-
 
   return 0;
 }
