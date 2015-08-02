@@ -7,6 +7,7 @@ install:
 
 script:
   - bekobrew --version
+  - bekobrew install
 
 env:
   - PATH=$PATH:$HOME/local/bin
