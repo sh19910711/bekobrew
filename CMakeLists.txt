@@ -1,15 +1,16 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 PROJECT(bekobrew)
 
+# jansson: C library for encoding, decoding and manipulating JSON data.
+INCLUDE(ExternalProject)
 SET(VENDOR ${CMAKE_SOURCE_DIR}/vendor)
 SET(VENDOR_PREFIX ${CMAKE_BINARY_DIR}/vendor-prefix)
-
-INCLUDE(ExternalProject)
 ExternalProject_Add(jansson.a
   SOURCE_DIR ${VENDOR}/jansson
   CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:STRING=${VENDOR_PREFIX}
   )
 
+# bekobrew
 FILE(GLOB SOURCES src/*.c src/*/*.c)
 INCLUDE_DIRECTORIES(src/)
 INCLUDE_DIRECTORIES(${VENDOR_PREFIX}/include)
@@ -17,6 +18,4 @@ ADD_EXECUTABLE(bekobrew ${SOURCES})
 ADD_DEPENDENCIES(bekobrew jansson.a)
 TARGET_LINK_LIBRARIES(bekobrew ${PROJECT_LINK_DEPENDENCIES})
 
-INSTALL(TARGETS bekobrew
-  RUNTIME DESTINATION bin/
-  )
+INSTALL(TARGETS bekobrew RUNTIME DESTINATION bin/)
