@@ -10,7 +10,8 @@ static int start_with_hyphen(const char* cmd) {
 }
 
 static struct command* find_command(const char* cmd_name) {
-  for (int i = 0; i < ARRAY_SIZE(commands); i++) {
+  int i;
+  for (i = 0; i < ARRAY_SIZE(commands); i++) {
     struct command* p = commands + i;
     if (!strcmp(cmd_name, p->cmd)) {
       return p;
