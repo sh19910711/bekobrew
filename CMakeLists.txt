@@ -5,7 +5,7 @@ SET(VENDOR ${CMAKE_SOURCE_DIR}/vendor)
 SET(VENDOR_PREFIX ${CMAKE_BINARY_DIR}/vendor-prefix)
 
 INCLUDE(ExternalProject)
-ExternalProject_Add(jansson
+ExternalProject_Add(jansson.a
   SOURCE_DIR ${VENDOR}/jansson
   CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:STRING=${VENDOR_PREFIX}
   )
@@ -16,8 +16,8 @@ FILE(GLOB SOURCES src/*.c src/*/*.c)
 INCLUDE_DIRECTORIES(src/)
 INCLUDE_DIRECTORIES(${VENDOR_PREFIX}/include)
 ADD_EXECUTABLE(bekobrew ${SOURCES})
-ADD_DEPENDENCIES(bekobrew jansson)
-TARGET_LINK_LIBRARIES(bekobrew libjansson.a)
+ADD_DEPENDENCIES(bekobrew jansson.a)
+TARGET_LINK_LIBRARIES(bekobrew ${PROJECT_LINK_DEPENDENCIES})
 
 INSTALL(TARGETS bekobrew
   RUNTIME DESTINATION bin/
