@@ -3,6 +3,7 @@
 static struct command commands[] = {
   { "version", cmd_version },
   { "help", cmd_help },
+  { "install", cmd_install },
 };
 
 static struct command* find_command(const char* cmd_name) {
