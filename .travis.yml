@@ -1,0 +1,11 @@
+language: c
+
+install:
+  - mkdir -p build && cd build
+  - cmake -DCMAKE_INSTALL_PREFIX=$HOME/local .. && make && make install
+
+script:
+  - bekobrew --version
+
+env:
+  - PATH=$PATH:$HOME/local/bin
