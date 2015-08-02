@@ -3,8 +3,8 @@
 
 #define ARRAY_SIZE(x) (sizeof(x)/sizeof(x[0]))
 
-static inline int start_with_hyphen(const char* s) {
-  return s[0] == '-';
+static inline int start_with(const char* s, const char c) {
+  return s[0] == c;
 }
 
 static inline int skip_prefix(const char* s, const char* prefix,

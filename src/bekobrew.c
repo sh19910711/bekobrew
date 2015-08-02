@@ -21,7 +21,7 @@ static int parse_cli_options(int* argc, const char*** argv) {
   while (*argc > 0) {
     const char* option = **argv;
 
-    if (!start_with_hyphen(option)) {
+    if (!start_with(option, '-')) {
       break;
     }
 
