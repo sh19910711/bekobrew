@@ -1,6 +1,8 @@
 #ifndef INLINE_UTILS_H
 #define INLINE_UTILS_H
 
+#define ARRAY_SIZE(x) (sizeof(x)/sizeof(x[0]))
+
 static inline int start_with_hyphen(const char* s) {
   return s[0] == '-';
 }

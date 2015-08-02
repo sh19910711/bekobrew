@@ -9,8 +9,6 @@
 #include "command.h"
 #include "inline_utils.h"
 
-#define ARRAY_SIZE(x) (sizeof(x)/sizeof(x[0]))
-
 struct command {
   const char* cmd;
   int (*call)(int, const char**);
