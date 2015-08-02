@@ -52,14 +52,16 @@ int main(int argc, char** _argv) {
   argc--;
   parse_cli_options(&argc, &argv);
 
-  const char* cmd_name = argv[0];
-
   if (argc > 0) {
     skip_prefix(argv[0], "--", &argv[0]);
+  }
+
+  const char* cmd_name;
+  if (argc > 0) {
+    cmd_name = argv[0];
   } else {
     cmd_name = "help";
   }
-
   struct command* cmd = find_command(cmd_name);
   if (cmd) {
     cmd->call(argc, argv);
