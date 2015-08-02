@@ -1,13 +1,8 @@
 #ifndef BEKOBREW_H
 #define BEKOBREW_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include "version.h"
+#include "common.h"
 #include "command.h"
-#include "inline_utils.h"
 
 struct command {
   const char* cmd;
