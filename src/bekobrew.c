@@ -58,6 +58,7 @@ int main(int argc, char** _argv) {
   } else {
     cmd_name = "help";
   }
+
   struct command* cmd = find_command(cmd_name);
   if (cmd) {
     cmd->call(argc, argv);
