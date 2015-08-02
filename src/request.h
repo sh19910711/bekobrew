@@ -14,6 +14,8 @@ struct write_result
   int pos;
 };
 
+static size_t write_response(void *ptr, size_t size, size_t nmemb, void *stream);
+
 extern char* request(const char*);
 
 #endif

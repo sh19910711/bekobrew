@@ -1,11 +1,9 @@
 #include "request.h"
 
-static size_t write_response(void *ptr, size_t size, size_t nmemb, void *stream)
-{
+static size_t write_response(void *ptr, size_t size, size_t nmemb, void *stream) {
   struct write_result *result = (struct write_result *)stream;
 
-  if(result->pos + size * nmemb >= BUFFER_SIZE - 1)
-  {
+  if(result->pos + size * nmemb >= BUFFER_SIZE - 1) {
     fprintf(stderr, "error: too small buffer\n");
     return 0;
   }
@@ -16,8 +14,7 @@ static size_t write_response(void *ptr, size_t size, size_t nmemb, void *stream)
   return size * nmemb;
 }
 
-char *request(const char *url)
-{
+char *request(const char *url) {
   CURL *curl = NULL;
   CURLcode status;
   struct curl_slist *headers = NULL;
