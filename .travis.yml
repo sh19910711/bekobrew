@@ -1,5 +1,7 @@
 language: c
 
+sudo: false
+
 install:
   - mkdir -p build && cd build
   - cmake -DCMAKE_INSTALL_PREFIX=$HOME/local .. && make && make install
