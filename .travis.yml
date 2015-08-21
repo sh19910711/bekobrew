@@ -4,7 +4,7 @@ sudo: false
 
 install:
   - ./script/build.sh -DCMAKE_INSTALL_PREFIX=$HOME/local
-  - make install
+  - ./script/install.sh
 
 script:
   - bekobrew --version
