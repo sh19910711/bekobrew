@@ -1,7 +1,11 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
-#include "common.h"
+#include <stdio.h>
+#include <string.h>
+
+#include "inline_utils.h"
+#include "version.h"
 
 struct command {
   const char* cmd;

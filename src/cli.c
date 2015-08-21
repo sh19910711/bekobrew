@@ -1,6 +1,6 @@
 #include "cli.h"
 
-static int parse_cli_options(int* argc, const char*** argv) {
+static int parse_options(int* argc, const char*** argv) {
   const char** prev_argv = *argv;
   while (*argc > 0) {
     const char* option = **argv;
@@ -30,7 +30,7 @@ int cli_run(int argc, char** _argv) {
 
   argv++;
   argc--;
-  parse_cli_options(&argc, &argv);
+  parse_options(&argc, &argv);
 
   if (argc > 0) {
     skip_prefix(argv[0], "--", &argv[0]);
