@@ -6,10 +6,10 @@ static struct command commands[] = {
   { "install", sub_command_install },
 };
 
-struct command* command_find(const char* cmd_name) {
+struct command *command_find(const char *cmd_name) {
   int i;
   for (i = 0; i < ARRAY_SIZE(commands); i++) {
-    struct command* p = commands + i;
+    struct command *p = commands + i;
     if (!strcmp(cmd_name, p->cmd)) {
       return p;
     }

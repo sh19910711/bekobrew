@@ -1,18 +1,18 @@
 #include "bekobuild.h"
 
-static struct bekobuild_t* new_bekobuild() {
+static struct bekobuild_t *new_bekobuild() {
   return (struct bekobuild_t*) malloc(sizeof(struct bekobuild_t));
 }
 
-static struct list_t* new_list() {
+static struct list_t *new_list() {
   return (struct list_t*) malloc(sizeof(struct list_t));
 }
 
-static yaml_parser_t* new_parser() {
+static yaml_parser_t *new_parser() {
   return (yaml_parser_t*) malloc(sizeof(yaml_parser_t));
 }
 
-static void init_parser(yaml_parser_t* parser, FILE* file) {
+static void init_parser(yaml_parser_t *parser, FILE* file) {
   if (!yaml_parser_initialize(parser)) {
     fputs("ERROR: yaml_parser_initialize", stderr);
     exit(1);
@@ -20,14 +20,14 @@ static void init_parser(yaml_parser_t* parser, FILE* file) {
   yaml_parser_set_input_file(parser, file);
 }
 
-static const char* to_string(yaml_token_t* token) {
+static const char *to_string(yaml_token_t *token) {
   return strdup((const char *)token->data.scalar.value);
 }
 
-static struct list_t* parse_seq(yaml_parser_t* parser) {
+static struct list_t *parse_seq(yaml_parser_t *parser) {
   yaml_token_t token;
   int done = 0;
-  struct list_t* head = new_list();
+  struct list_t *head = new_list();
 
   while (!done) {
     if (!yaml_parser_scan(parser, &token)) {
@@ -47,12 +47,12 @@ static struct list_t* parse_seq(yaml_parser_t* parser) {
   return head;
 }
 
-static int parse(yaml_parser_t* parser) {
+static int parse(yaml_parser_t *parser) {
   yaml_token_t token;
   int done = 0;
   int flag_key = 0;
-  const char* item_key;
-  const char* item_value;
+  const char *item_key;
+  const char *item_value;
 
   while (!done) {
     if (!yaml_parser_scan(parser, &token)) {
@@ -88,8 +88,8 @@ static int parse(yaml_parser_t* parser) {
   return 1;
 }
 
-struct bekobuild_t* open_bekobuild(FILE* file) {
-  struct bekobuild_t* self = new_bekobuild();
+struct bekobuild_t *open_bekobuild(FILE* file) {
+  struct bekobuild_t *self = new_bekobuild();
   self->parser = new_parser();
   init_parser(self->parser, file);
   if (!parse(self->parser)) {
@@ -99,7 +99,7 @@ struct bekobuild_t* open_bekobuild(FILE* file) {
   return self;
 }
 
-void close_bekobuild(struct bekobuild_t* self) {
+void close_bekobuild(struct bekobuild_t *self) {
   yaml_parser_delete(self->parser);
   free(self->parser);
   free(self);
