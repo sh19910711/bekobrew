@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2009-2014 Petri Lehtinen <petri@digip.org>
+ * Copyright (c) 2015 Bekobrew project
+ *
+ * Jansson is free software; you can redistribute it and/or modify
+ * it under the terms of the MIT license. See LICENSE for details.
+ */
+
 #include "request.h"
 
 static size_t write_response(void *ptr, size_t size, size_t nmemb, void *stream) {
