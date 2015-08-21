@@ -17,7 +17,6 @@ static void init_parser(yaml_parser_t* parser, FILE* file) {
     fputs("ERROR: yaml_parser_initialize", stderr);
     exit(1);
   }
-  
   yaml_parser_set_input_file(parser, file);
 }
 
@@ -29,22 +28,22 @@ static struct list_t* parse_seq(yaml_parser_t* parser) {
   yaml_token_t token;
   int done = 0;
   struct list_t* head = new_list();
-  
+
   while (!done) {
     if (!yaml_parser_scan(parser, &token)) {
       return NULL;
     }
-    
+
     switch (token.type) {
       case YAML_SCALAR_TOKEN:
         break;
-        
+
       case YAML_BLOCK_END_TOKEN:
         done = 1;
         break;
     }
   }
-  
+
   return head;
 }
 
@@ -54,17 +53,17 @@ static int parse(yaml_parser_t* parser) {
   int flag_key = 0;
   const char* item_key;
   const char* item_value;
-  
+
   while (!done) {
     if (!yaml_parser_scan(parser, &token)) {
       return 0;
     }
-    
+
     switch (token.type) {
       case YAML_KEY_TOKEN:
         flag_key = 1;
         break;
-        
+
       case YAML_SCALAR_TOKEN:
         if (flag_key) {
           item_key = to_string(&token);
@@ -73,19 +72,19 @@ static int parse(yaml_parser_t* parser) {
         }
         flag_key = 0;
         break;
-        
+
       case YAML_BLOCK_SEQUENCE_START_TOKEN:
         parse_seq(parser);
         break;
-        
+
       case YAML_STREAM_END_TOKEN:
         done = 1;
         break;
     }
-    
+
     yaml_token_delete(&token);
   }
-  
+
   return 1;
 }
 
