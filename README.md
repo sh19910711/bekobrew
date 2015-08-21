@@ -2,7 +2,9 @@
 
 The userspace package manager.
 
-## Build
+## Development
+
+### Building
 
 ```
 $ git submodule init
@@ -10,7 +12,7 @@ $ git submodule update
 $ ./script/build.sh
 ```
 
-## Testing
+### Testing
 
 ```
 $ ./build/run_test
