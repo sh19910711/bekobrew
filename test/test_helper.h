@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
 
-#ifdef __APPLE__
+#ifndef HAVE_FMEMOPEN
 #include "fmemopen.h"
 #endif
