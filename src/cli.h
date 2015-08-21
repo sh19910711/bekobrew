@@ -2,6 +2,7 @@
 #define BEKOBREW_H
 
 #include <string.h>
+
 #include "inline_utils.h"
 #include "command.h"
 
