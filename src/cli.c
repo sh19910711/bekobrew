@@ -1,21 +1,5 @@
 #include "cli.h"
 
-static struct command* find_command(const char* cmd_name) {
-  int i;
-  struct command commands[] = {
-    { "version", cmd_version },
-    { "help", cmd_help },
-    { "install", cmd_install },
-  };
-  for (i = 0; i < ARRAY_SIZE(commands); i++) {
-    struct command* p = commands + i;
-    if (!strcmp(cmd_name, p->cmd)) {
-      return p;
-    }
-  }
-  return NULL;
-}
-
 static int parse_cli_options(int* argc, const char*** argv) {
   const char** prev_argv = *argv;
   while (*argc > 0) {
@@ -37,7 +21,7 @@ static int parse_cli_options(int* argc, const char*** argv) {
 
 static void help(int argc, const char** argv) {
   const char* cmd_name = "help";
-  struct command* cmd = find_command(cmd_name);
+  struct command* cmd = command_find(cmd_name);
   cmd->call(argc, argv);
 }
 
@@ -59,7 +43,7 @@ int run_cli(int argc, char** _argv) {
     cmd_name = "help";
   }
 
-  struct command* cmd = find_command(cmd_name);
+  struct command* cmd = command_find(cmd_name);
   if (cmd) {
     cmd->call(argc, argv);
   } else {
