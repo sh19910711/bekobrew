@@ -5,6 +5,13 @@ The userspace package manager.
 ## Build
 
 ```
-$ mkdir -p build && cd build
-$ cmake .. && make && make install
+$ git submodule init
+$ git submodule update
+$ ./script/build.sh
+```
+
+## Testing
+
+```
+$ ./build/run_test
 ```
