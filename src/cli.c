@@ -25,7 +25,7 @@ static void help(int argc, const char** argv) {
   cmd->call(argc, argv);
 }
 
-int run_cli(int argc, char** _argv) {
+int cli_run(int argc, char** _argv) {
   const char** argv = (const char**)_argv;
 
   argv++;

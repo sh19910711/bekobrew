@@ -1,9 +1,9 @@
 #include "command.h"
 
 struct command commands[] = {
-  { "version", cmd_version },
-  { "help", cmd_help },
-  { "install", cmd_install },
+  { "version", sub_command_version },
+  { "help", sub_command_help },
+  { "install", sub_command_install },
 };
 
 struct command* command_find(const char* cmd_name) {
