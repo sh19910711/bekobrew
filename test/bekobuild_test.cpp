@@ -1,4 +1,4 @@
-#include <gtest/gtest.h>
+#include "./test_helper.h"
 
 extern "C" {
   #include "bekobuild.h"
