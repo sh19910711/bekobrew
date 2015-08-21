@@ -9,6 +9,7 @@ install:
 script:
   - bekobrew --version
   - bekobrew install
+  - ls
   - pwd
   - ./build/run_test
 
