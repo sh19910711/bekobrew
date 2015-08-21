@@ -13,3 +13,8 @@ script:
 
 env:
   - PATH=$PATH:$HOME/local/bin
+
+cache:
+  directories:
+    - vendor/
+    - build/
