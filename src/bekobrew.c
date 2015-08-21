@@ -42,7 +42,7 @@ static void help(int argc, const char** argv) {
   cmd->call(argc, argv);
 }
 
-int main(int argc, char** _argv) {
+int run(int argc, char** _argv) {
   const char** argv = (const char**)_argv;
 
   argv++;
