@@ -9,7 +9,8 @@ install:
 script:
   - bekobrew --version
   - bekobrew install
-  - run_test
+  - pwd
+  - ./build/run_test
 
 env:
   - PATH=$PATH:$HOME/local/bin
