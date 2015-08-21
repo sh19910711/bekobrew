@@ -1,5 +1,5 @@
-#include "bekobrew.h"
+#include "cli.h"
 
 int main(int argc, char** argv) {
-  return run(argc, argv);
+  return run_cli(argc, argv);
 }

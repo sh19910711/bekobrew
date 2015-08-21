@@ -1,13 +1,12 @@
-#include "bekobrew.h"
-
-static struct command commands[] = {
-  { "version", cmd_version },
-  { "help", cmd_help },
-  { "install", cmd_install },
-};
+#include "cli.h"
 
 static struct command* find_command(const char* cmd_name) {
   int i;
+  struct command commands[] = {
+    { "version", cmd_version },
+    { "help", cmd_help },
+    { "install", cmd_install },
+  };
   for (i = 0; i < ARRAY_SIZE(commands); i++) {
     struct command* p = commands + i;
     if (!strcmp(cmd_name, p->cmd)) {
@@ -42,7 +41,7 @@ static void help(int argc, const char** argv) {
   cmd->call(argc, argv);
 }
 
-int run(int argc, char** _argv) {
+int run_cli(int argc, char** _argv) {
   const char** argv = (const char**)_argv;
 
   argv++;
