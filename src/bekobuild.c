@@ -88,18 +88,18 @@ static int parse(yaml_parser_t *parser) {
   return 1;
 }
 
-struct bekobuild_t *open_bekobuild(FILE* file) {
+struct bekobuild_t *bekobuild_open(FILE* file) {
   struct bekobuild_t *self = new_bekobuild();
   self->parser = new_parser();
   init_parser(self->parser, file);
   if (!parse(self->parser)) {
-    close_bekobuild(self);
+    bekobuild_close(self);
     exit(1);
   }
   return self;
 }
 
-void close_bekobuild(struct bekobuild_t *self) {
+void bekobuild_close(struct bekobuild_t *self) {
   yaml_parser_delete(self->parser);
   free(self->parser);
   free(self);

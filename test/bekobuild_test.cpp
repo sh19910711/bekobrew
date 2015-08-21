@@ -6,7 +6,7 @@ extern "C" {
 
 TEST(BEKOBUILD, LoadFromFile) {
   FILE* fp = fopen("./test/bekobuild_test/BEKOBUILD", "r");
-  struct bekobuild_t* bekobuild = open_bekobuild(fp);
-  close_bekobuild(bekobuild);
+  struct bekobuild_t* bekobuild = bekobuild_open(fp);
+  bekobuild_close(bekobuild);
   fclose(fp);
 }

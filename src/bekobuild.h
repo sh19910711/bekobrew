@@ -14,7 +14,7 @@ struct bekobuild_t {
   struct list_t *build;
 };
 
-extern struct bekobuild_t *open_bekobuild(FILE*);
-extern void close_bekobuild(struct bekobuild_t*);
+extern struct bekobuild_t *bekobuild_open(FILE*);
+extern void bekobuild_close(struct bekobuild_t*);
 
 #endif
