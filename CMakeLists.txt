@@ -1,13 +1,16 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 2.8)
 PROJECT (bekobrew)
+SET (VENDOR ${CMAKE_SOURCE_DIR}/vendor)
 
 # curl
 FIND_LIBRARY (CURL_LIBRARY NAMES curl)
 
 # libyaml
-SET (VENDOR ${CMAKE_SOURCE_DIR}/vendor)
 ADD_SUBDIRECTORY (${VENDOR}/libyaml)
 INCLUDE_DIRECTORIES (${VENDOR}/libyaml/include)
+
+# google test
+ADD_SUBDIRECTORY (${VENDOR}/googletest)
 
 # bekobrew
 FILE (GLOB BEKOBREW_SOURCES src/*.c src/*/*.c)
