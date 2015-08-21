@@ -4,10 +4,12 @@ sudo: false
 
 install:
   - ./script/build.sh -DCMAKE_INSTALL_PREFIX=$HOME/local
+  - make install
 
 script:
   - bekobrew --version
   - bekobrew install
+  - ./build/run_test
 
 env:
   - PATH=$PATH:$HOME/local/bin
