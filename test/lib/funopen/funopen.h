@@ -13,6 +13,7 @@ struct fmem {
 };
 
 typedef struct fmem fmem_t;
+
 FILE *
 funopen(cookie, readfn, writefn, seekfn, closefn)
 	const void *cookie;
