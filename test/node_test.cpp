@@ -4,9 +4,19 @@ extern "C" {
   #include "node.h"
 }
 
-TEST(Node, String) {
-  const char *input = "hello";
-  struct node_t node;
-  node_set_value(&node, input);
-  ASSERT_STREQ("hello", node_to_string(&node));
+class NodeTest : public ::testing::Test {
+protected:
+  struct node_t *node;
+
+  virtual void SetUp() {
+    node = node_new("hello");
+  }
+
+  virtual void TearDown() {
+    free(node);
+  }
+};
+
+TEST_F(NodeTest, ToString) {
+  ASSERT_STREQ("hello", node_to_string(node));
 }
