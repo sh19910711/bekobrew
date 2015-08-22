@@ -21,7 +21,7 @@ static void init_parser(yaml_parser_t *parser, FILE* file) {
 }
 
 static const char *to_string(yaml_token_t *token) {
-  return strdup((const char *)token->data.scalar.value);
+  return strdup((const char *) token->data.scalar.value);
 }
 
 static struct list_t *parse_seq(yaml_parser_t *parser) {
