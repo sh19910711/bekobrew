@@ -104,3 +104,25 @@ void bekobuild_close(struct bekobuild_t *self) {
   free(self->parser);
   free(self);
 }
+
+
+const char *bekobuild_get_name(struct bekobuild_t* bekobuild) {
+  static const char* res = "name";
+  return res;
+}
+
+const char **bekobuild_get_build(struct bekobuild_t* bekobuild) {
+  static const char* res[] = {
+    "hello",
+    "build",
+  };
+  return res;
+}
+
+const char **bekobuild_get_package(struct bekobuild_t* bekobuild) {
+  static const char* res[] = {
+    "hello",
+    "package",
+  };
+  return res;
+}
