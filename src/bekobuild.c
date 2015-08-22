@@ -94,7 +94,7 @@ struct bekobuild_t *bekobuild_open(FILE* file) {
   init_parser(self->parser, file);
   if (!parse(self->parser)) {
     bekobuild_close(self);
-    exit(1);
+    return NULL;
   }
   return self;
 }
