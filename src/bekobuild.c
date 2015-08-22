@@ -20,12 +20,6 @@ static const char *to_string(yaml_token_t *token) {
   return strdup((const char *) token->data.scalar.value);
 }
 
-static void push_item(struct vector_t *v, const char *s) {
-  struct node_t *node = node_new();
-  node_set_value(node, s);
-  vector_push(v, node);
-}
-
 static struct vector_t *parse_seq(yaml_parser_t *parser) {
   yaml_token_t token;
   int done = 0;
@@ -41,7 +35,7 @@ static struct vector_t *parse_seq(yaml_parser_t *parser) {
         break;
 
       case YAML_SCALAR_TOKEN:
-        push_item(v, to_string(&token));
+        vector_push(v, node_new(to_string(&token)));
         break;
 
       case YAML_BLOCK_END_TOKEN:
