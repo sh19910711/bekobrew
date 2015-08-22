@@ -9,7 +9,7 @@
 #include "request.h"
 
 static size_t write_response(void *ptr, size_t size, size_t nmemb, void *stream) {
-  struct write_result *result = (struct write_result *)stream;
+  struct write_result *result = (struct write_result *) stream;
 
   if (result->pos + size * nmemb >= BUFFER_SIZE - 1) {
     fprintf(stderr, "error: too small buffer\n");
