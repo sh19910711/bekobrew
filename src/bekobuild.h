@@ -8,18 +8,21 @@ struct list_t {
   struct list_t *next;
 };
 
+struct seq_t {
+  int n;
+  const char **data;
+};
+
 struct bekobuild_t {
   yaml_parser_t *parser;
   const char *name;
-  struct list_t *build;
+  int build_num;
+  struct seq_t *build;
+  int package_num;
+  struct seq_t *package;
 };
 
 extern struct bekobuild_t *bekobuild_open(FILE *);
 extern void bekobuild_close(struct bekobuild_t *);
-extern const char *bekobuild_get_name(struct bekobuild_t *);
-extern int bekobuild_get_build_num(struct bekobuild_t *);
-extern const char **bekobuild_get_build(struct bekobuild_t *);
-extern int bekobuild_get_package_num(struct bekobuild_t *);
-extern const char **bekobuild_get_package(struct bekobuild_t *);
 
 #endif
