@@ -14,10 +14,12 @@ struct bekobuild_t {
   struct list_t *build;
 };
 
-extern struct bekobuild_t *bekobuild_open(FILE*);
-extern void bekobuild_close(struct bekobuild_t*);
-extern const char *bekobuild_get_name(struct bekobuild_t*);
-extern const char **bekobuild_get_build(struct bekobuild_t*);
-extern const char **bekobuild_get_package(struct bekobuild_t*);
+extern struct bekobuild_t *bekobuild_open(FILE *);
+extern void bekobuild_close(struct bekobuild_t *);
+extern const char *bekobuild_get_name(struct bekobuild_t *);
+extern int bekobuild_get_build_num(struct bekobuild_t *);
+extern const char **bekobuild_get_build(struct bekobuild_t *);
+extern int bekobuild_get_package_num(struct bekobuild_t *);
+extern const char **bekobuild_get_package(struct bekobuild_t *);
 
 #endif

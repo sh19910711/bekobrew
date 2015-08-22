@@ -111,12 +111,20 @@ const char *bekobuild_get_name(struct bekobuild_t* bekobuild) {
   return res;
 }
 
+int bekobuild_get_build_num(struct bekobuild_t* bekobuild) {
+  return -1;
+}
+
 const char **bekobuild_get_build(struct bekobuild_t* bekobuild) {
   static const char* res[] = {
     "hello",
     "build",
   };
   return res;
+}
+
+int bekobuild_get_package_num(struct bekobuild_t* bekobuild) {
+  return -1;
 }
 
 const char **bekobuild_get_package(struct bekobuild_t* bekobuild) {
