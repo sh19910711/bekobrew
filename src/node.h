@@ -1,6 +1,8 @@
 #ifndef NODE_H
 #define NODE_H
 
+#include <stdlib.h>
+
 struct node_t {
   const void *value;
 };
