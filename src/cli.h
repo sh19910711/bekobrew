@@ -1,5 +1,5 @@
-#ifndef BEKOBREW_H
-#define BEKOBREW_H
+#ifndef CLI_H
+#define CLI_H
 
 #include <string.h>
 
