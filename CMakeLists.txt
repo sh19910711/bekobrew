@@ -29,7 +29,7 @@ LIST (REMOVE_ITEM TESTING_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/main.c")
 
 ADD_EXECUTABLE (run_test ${TESTING_SOURCES})
 ADD_DEPENDENCIES (run_test gtest)
-TARGET_LINK_LIBRARIES(run_test
+TARGET_LINK_LIBRARIES (run_test
   gtest
   gtest_main
   pthread
