@@ -1,11 +1,9 @@
 #include "node.h"
 
-struct node_t *node_new() {
-  return (struct node_t *) malloc(sizeof(struct node_t));
-}
-
-void node_set_value(struct node_t *node, const void *value) {
-  node->value = value;
+struct node_t *node_new(const void *value) {
+  struct node_t *self = (struct node_t *) malloc(sizeof(struct node_t));
+  self->value = value;
+  return self;
 }
 
 const char *node_to_string(struct node_t *node) {
