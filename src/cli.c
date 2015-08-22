@@ -26,7 +26,7 @@ static void help(int argc, const char **argv) {
 }
 
 int cli_run(int argc, char **_argv) {
-  const char **argv = (const char **)_argv;
+  const char **argv = (const char **) _argv;
 
   argv++;
   argc--;
