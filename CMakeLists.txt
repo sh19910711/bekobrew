@@ -36,25 +36,11 @@ INCLUDE_DIRECTORIES (${source_dir}/include)
 EXTERNALPROJECT_GET_PROPERTY (googletest binary_dir)
 LINK_DIRECTORIES (${binary_dir})
 
-# GoogleMock
-EXTERNALPROJECT_ADD (googlemock
-  GIT_REPOSITORY "${VENDOR}/gmock"
-  PREFIX ${CMAKE_CURRENT_BINARY_DIR}/gmock
-  PATCH_COMMAND patch -t -p0 < ${CMAKE_CURRENT_SOURCE_DIR}/patch/googlemock-CMakeLists.txt.patch
-  INSTALL_COMMAND ""
-  CMAKE_ARGS "-Dgtest_dir=${VENDOR}/gtest"
-  )
-EXTERNALPROJECT_GET_PROPERTY (googlemock source_dir)
-INCLUDE_DIRECTORIES (${source_dir}/include)
-EXTERNALPROJECT_GET_PROPERTY (googlemock binary_dir)
-LINK_DIRECTORIES (${binary_dir})
-
 FILE (GLOB TESTING_SOURCES ${BEKOBREW_SOURCES} test/*_test.cpp test/*/*_test.cpp)
 LIST (REMOVE_ITEM TESTING_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/main.c")
 
 ADD_EXECUTABLE (run_test ${TESTING_SOURCES})
 ADD_DEPENDENCIES (run_test googletest)
-ADD_DEPENDENCIES (run_test googlemock)
 TARGET_LINK_LIBRARIES (run_test
   gtest
   gtest_main
