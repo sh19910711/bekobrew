@@ -13,8 +13,6 @@ struct write_result {
   int pos;
 };
 
-static size_t write_response(void *, size_t, size_t, void *);
-
 extern char *request(const char*);
 
 #endif
