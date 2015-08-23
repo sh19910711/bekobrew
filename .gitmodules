@@ -4,3 +4,6 @@
 [submodule "vendor/googletest"]
 	path = vendor/googletest
 	url = https://chromium.googlesource.com/external/googletest.git
+[submodule "vendor/googlemock"]
+	path = vendor/googlemock
+	url = https://chromium.googlesource.com/external/gmock.git
