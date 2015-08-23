@@ -20,5 +20,4 @@ env:
 
 cache:
   directories:
-    - vendor/
     - build/
