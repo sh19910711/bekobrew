@@ -1,6 +1,6 @@
 #include "vector.h"
 
-static inline int real_capacity(int capacity) {
+static inline int get_capacity(int capacity) {
   return sizeof(struct node_t *) * capacity;
 }
 
@@ -10,14 +10,15 @@ static inline int is_full(struct vector_t *self) {
 
 static void resize(struct vector_t *self) {
   self->capacity *= 2;
-  self->data = (struct node_t **) realloc(self->data, real_capacity(self->capacity));
+  self->data = (struct node_t **) realloc(self->data,
+                                          get_capacity(self->capacity));
 }
 
 struct vector_t *vector_new() {
   struct vector_t *self = (struct vector_t *) malloc(sizeof(struct vector_t));
   self->size = 0;
   self->capacity = 1;
-  self->data = (struct node_t **) malloc(real_capacity(self->capacity));
+  self->data = (struct node_t **) malloc(get_capacity(self->capacity));
   return self;
 }
 
