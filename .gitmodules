@@ -1,9 +1,9 @@
-[submodule "vendor/libyaml"]
+[submodule "libyaml"]
 	path = vendor/libyaml
 	url = https://github.com/yaml/libyaml.git
-[submodule "vendor/googletest"]
-	path = vendor/googletest
+[submodule "googletest"]
+	path = vendor/gtest
 	url = https://chromium.googlesource.com/external/googletest.git
-[submodule "vendor/googlemock"]
-	path = vendor/googlemock
+[submodule "googlemock"]
+	path = vendor/gmock
 	url = https://chromium.googlesource.com/external/gmock.git
