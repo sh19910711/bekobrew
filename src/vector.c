@@ -10,8 +10,12 @@ static inline int is_full(struct vector_t *self) {
 
 static void resize(struct vector_t *self) {
   self->capacity *= 2;
-  self->data = (struct node_t **) realloc(self->data,
-                                          get_capacity(self->capacity));
+  void *tmp = realloc(self->data, get_capacity(self->capacity));
+  if (!tmp) {
+    free(self->data);
+  } else {
+    self->data = (struct node_t **)tmp;
+  }
 }
 
 struct vector_t *vector_new() {
