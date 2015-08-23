@@ -9,11 +9,11 @@ protected:
   struct node_t *node;
 
   virtual void SetUp() {
-    node = node_new("hello");
+    node = node_new(strdup("hello"));
   }
 
   virtual void TearDown() {
-    free(node);
+    node_free(node);
   }
 };
 
