@@ -6,6 +6,11 @@ compiler:
 
 sudo: false
 
+addons:
+  apt:
+    packages:
+      - valgrind
+
 install:
   - ./script/build.sh -DCMAKE_INSTALL_PREFIX=$HOME/local
   - ./script/install.sh
@@ -13,7 +18,7 @@ install:
 script:
   - bekobrew --version
   - bekobrew install
-  - ./build/run_test
+  - valgrind --leak-check=full ./build/run_test
 
 env:
   - PATH=$PATH:$HOME/local/bin
