@@ -1,5 +1,5 @@
 #include "command.h"
 
-int sub_command_version(int argc, const char **argv) {
+int sub_command_version(struct vector_t *args) {
   printf("bekobrew version %s\n", BEKOBREW_VERSION);
 }
