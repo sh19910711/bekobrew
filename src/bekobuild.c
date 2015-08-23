@@ -20,10 +20,10 @@ static char *to_string(yaml_token_t *token) {
   return strdup((const char *) token->data.scalar.value);
 }
 
-static struct vector_t *parse_seq(yaml_parser_t *parser) {
+static struct string_vector_t *parse_seq(yaml_parser_t *parser) {
   yaml_token_t token;
   int done = 0;
-  struct vector_t *v = vector_new();
+  struct string_vector_t *v = string_vector_new();
 
   while (!done) {
     if (!yaml_parser_scan(parser, &token)) {
@@ -35,7 +35,7 @@ static struct vector_t *parse_seq(yaml_parser_t *parser) {
         break;
 
       case YAML_SCALAR_TOKEN:
-        vector_push(v, node_new(to_string(&token)));
+        string_vector_push(v, to_string(&token));
         break;
 
       case YAML_BLOCK_END_TOKEN:
@@ -59,7 +59,7 @@ static char **resolve_item(struct bekobuild_t *self, const char *key) {
   return NULL;
 }
 
-static struct vector_t **resolve_seq(struct bekobuild_t *self, const char *key) {
+static struct string_vector_t **resolve_seq(struct bekobuild_t *self, const char *key) {
   if (!strcmp(key, "build")) {
     return &self->build;
   } else if (!strcmp(key, "package")) {
@@ -124,8 +124,8 @@ struct bekobuild_t *bekobuild_open(FILE* file) {
 
 void bekobuild_close(struct bekobuild_t *self) {
   free(self->name);
-  vector_free(self->build);
-  vector_free(self->package);
+  string_vector_free(self->build);
+  string_vector_free(self->package);
   yaml_parser_delete(self->parser);
   free(self->parser);
   free(self);
