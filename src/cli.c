@@ -1,18 +1,18 @@
 #include "cli.h"
 
 static const char *get_argument(struct cli_t *self, int k) {
-  return node_to_string(vector_at(self->args, k));
+  return string_vector_at(self->args, k);
 }
 
 struct cli_t *cli_new() {
   struct cli_t *self = (struct cli_t *) malloc(sizeof(struct cli_t));
   self->sub_command = NULL;
-  self->args = vector_new();
+  self->args = string_vector_new();
   return self;
 }
 
 void cli_free(struct cli_t *self) {
-  vector_free(self->args);
+  string_vector_free(self->args);
   free(self);
 }
 
@@ -20,11 +20,11 @@ static int is_sub_command(const char *s) {
   return !string_start_with(s, '-');
 }
 
-struct vector_t *get_sub_command_args(struct cli_t *self) {
-  struct vector_t *args = vector_new();
+struct string_vector_t *get_sub_command_args(struct cli_t *self) {
+  struct string_vector_t *args = string_vector_new();
   int i;
   for (i = self->last_index; i < self->args->size; ++i) {
-    vector_push(args, node_new(strdup(node_to_string(vector_at(self->args, i)))));
+    string_vector_push(args, strdup(string_vector_at(self->args, i)));
   }
   return args;
 }
@@ -32,21 +32,21 @@ struct vector_t *get_sub_command_args(struct cli_t *self) {
 void cli_set_arguments(struct cli_t *self, int argc, char **argv) {
   int i;
   for (i = 0; i < argc; ++i) {
-    vector_push(self->args, node_new(strdup(argv[i])));
+    string_vector_push(self->args, strdup(argv[i]));
   }
 }
 
 int cli_run(struct cli_t *self) {
   cli_parse(self);
 
-  struct vector_t *sub_args = get_sub_command_args(self);
+  struct string_vector_t *sub_args = get_sub_command_args(self);
   int ret;
   if (self->sub_command) {
     ret = command_find(self->sub_command)->call(sub_args);
   } else {
     ret = command_find("help")->call(sub_args);
   }
-  vector_free(sub_args);
+  string_vector_free(sub_args);
 
   return ret;
 }

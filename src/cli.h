@@ -5,10 +5,10 @@
 
 #include "string_utils.h"
 #include "command.h"
-#include "vector.h"
+#include "string_vector.h"
 
 struct cli_t {
-  struct vector_t *args;
+  struct string_vector_t *args;
   const char *command;
   const char *sub_command;
   int last_index;
