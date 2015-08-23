@@ -21,7 +21,7 @@ protected:
 
   void push_fake_nodes() {
     for (int i = 0; i < 3; ++i) {
-      vector_push(v, node_new(fake_items[i]));
+      vector_push(v, node_new(strdup(fake_items[i])));
     }
   }
 };
