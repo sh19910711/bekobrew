@@ -1,5 +1,5 @@
 #include "./test_helper.h"
-#include "./bekobrew_test.h"
+#include "./bekobuild_test.h"
 
 TEST_F(BekobuildSimplePackage, Name) {
   ASSERT_STREQ("fake-package", bekobuild->name);
