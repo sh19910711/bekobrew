@@ -3,15 +3,15 @@
 
 #include <stdlib.h>
 
-struct map_t {
+struct string_map_t {
   const void *value;
-  struct map_t **child;
+  struct string_map_t **child;
 };
 
-extern struct map_t *map_new();
-extern void map_free(struct map_t *);
-extern struct map_t *map_set(struct map_t *, const char *, const void *);
-extern const void *map_get(struct map_t *, const char *);
-extern const char *map_get_as_string(struct map_t *, const char *);
+extern struct string_map_t *string_map_new();
+extern void string_map_free(struct string_map_t *);
+extern struct string_map_t *string_map_set(struct string_map_t *, const char *, const void *);
+extern const void *string_map_get(struct string_map_t *, const char *);
+extern const char *string_map_get_as_string(struct string_map_t *, const char *);
 
 #endif
