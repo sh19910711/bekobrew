@@ -6,6 +6,14 @@ extern "C" {
   #include "version.h"
 }
 
+static void test_capture() {
+  testing::internal::CaptureStdout();
+}
+
+static const char *test_output() {
+  return testing::internal::GetCapturedStdout().c_str();
+}
+
 static inline void push(struct cli_t *self, const char *arg) {
   vector_push(self->args, node_new(strdup(arg)));
 }
