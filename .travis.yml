@@ -18,7 +18,7 @@ install:
 script:
   - bekobrew --version
   - bekobrew install
-  - valgrind --leak-check=full ./build/run_test
+  - valgrind --leak-check=full --error-exitcode=1 ./build/run_test
 
 env:
   - PATH=$PATH:$HOME/local/bin
