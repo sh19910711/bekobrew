@@ -10,8 +10,8 @@ static void test_capture() {
   testing::internal::CaptureStdout();
 }
 
-static const char *test_output() {
-  return testing::internal::GetCapturedStdout().c_str();
+static std::string test_output() {
+  return testing::internal::GetCapturedStdout();
 }
 
 static inline void push(struct cli_t *self, const char *arg) {

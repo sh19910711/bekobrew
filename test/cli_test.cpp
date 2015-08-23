@@ -23,7 +23,7 @@ TEST_F(CLITest, ParseWithSubCommandVersion) {
 TEST_F(CLITest, RunWithoutArgs) {
   test_capture();
   cli_run(self);
-  ASSERT_TRUE(strstr(test_output(), "--help"));
+  ASSERT_TRUE(test_output().find("--help", 0) != std::string::npos);
 }
 
 TEST_F(CLITest, RunWithOptionVersion) {
@@ -31,8 +31,8 @@ TEST_F(CLITest, RunWithOptionVersion) {
   push(self, "--version");
   cli_run(self);
   std::stringstream expected;
-  expected << "version " << BEKOBREW_VERSION << std::endl;
-  ASSERT_TRUE(strstr(test_output(), expected.str().c_str()));
+  expected << "version " << BEKOBREW_VERSION;
+  ASSERT_TRUE(test_output().find(expected.str(), 0) != std::string::npos);
 }
 
 TEST_F(CLITest, RunWithSubCommandVersion) {
@@ -40,8 +40,8 @@ TEST_F(CLITest, RunWithSubCommandVersion) {
   push(self, "version");
   cli_run(self);
   std::stringstream expected;
-  expected << "version " << BEKOBREW_VERSION << std::endl;
-  ASSERT_TRUE(strstr(test_output(), expected.str().c_str()));
+  expected << "version " << BEKOBREW_VERSION;
+  ASSERT_TRUE(test_output().find(expected.str(), 0) != std::string::npos);
 }
 
 TEST_F(CLITestWithArgv, Parse) {
