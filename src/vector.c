@@ -25,7 +25,7 @@ struct vector_t *vector_new() {
 void vector_free(struct vector_t *self) {
   int i;
   for (i = 0; i < self->size; ++i) {
-    free(self->data[i]);
+    node_free(self->data[i]);
   }
   free(self->data);
   free(self);
