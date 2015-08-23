@@ -4,16 +4,18 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "vector.h"
 #include "version.h"
 
 struct command {
   const char *cmd;
-  int (*call)(int, const char **);
+  int (*call)(struct vector_t *);
 };
 
-extern int sub_command_version(int argc, const char **argv);
-extern int sub_command_help(int argc, const char **argv);
-extern int sub_command_install(int argc, const char **argv);
+extern int sub_command_version(struct vector_t *);
+extern int sub_command_help(struct vector_t *);
+extern int sub_command_install(struct vector_t *);
+
 extern struct command *command_find(const char *cmd_name);
 
 #endif
