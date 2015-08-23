@@ -6,7 +6,7 @@ static inline int string_start_with(const char *s, const char c) {
 }
 
 static inline int string_skip_prefix(const char *s, const char *prefix,
-                              const char **out) {
+                                     const char **out) {
   do {
     if(!*prefix) {
       *out = s;
