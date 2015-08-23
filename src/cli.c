@@ -44,8 +44,8 @@ int cli_run(struct cli_t *self) {
   } else {
     ret = command_find("help")->call(sub_args);
   }
-
   free(sub_args);
+
   return ret;
 }
 
