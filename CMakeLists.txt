@@ -1,6 +1,9 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 2.8)
 PROJECT (bekobrew)
+
 INCLUDE (CheckFunctionExists)
+INCLUDE (ExternalProject)
+
 SET (VENDOR ${CMAKE_SOURCE_DIR}/vendor)
 
 # curl
@@ -10,9 +13,6 @@ FIND_LIBRARY (CURL_LIBRARY NAMES curl)
 ADD_SUBDIRECTORY (${VENDOR}/libyaml)
 INCLUDE_DIRECTORIES (${VENDOR}/libyaml/include)
 
-# google test
-ADD_SUBDIRECTORY (${VENDOR}/googletest)
-
 # bekobrew
 FILE (GLOB BEKOBREW_SOURCES src/*.c src/*/*.c)
 INCLUDE_DIRECTORIES (src/)
@@ -21,14 +21,40 @@ ADD_DEPENDENCIES (bekobrew yaml)
 TARGET_LINK_LIBRARIES (bekobrew yaml curl)
 INSTALL (TARGETS bekobrew RUNTIME DESTINATION bin/)
 
-# testing
-INCLUDE_DIRECTORIES (vendor/googletest/include)
+#
+# Testing Configuration
+#
+
+# GoogleTest
+EXTERNALPROJECT_ADD (googletest
+  GIT_REPOSITORY "${VENDOR}/gtest"
+  PREFIX ${CMAKE_CURRENT_BINARY_DIR}/gtest
+  INSTALL_COMMAND ""
+  )
+EXTERNALPROJECT_GET_PROPERTY (googletest source_dir)
+INCLUDE_DIRECTORIES (${source_dir}/include)
+EXTERNALPROJECT_GET_PROPERTY (googletest binary_dir)
+LINK_DIRECTORIES (${binary_dir})
+
+# GoogleMock
+EXTERNALPROJECT_ADD (googlemock
+  GIT_REPOSITORY "${VENDOR}/gmock"
+  PREFIX ${CMAKE_CURRENT_BINARY_DIR}/gmock
+  PATCH_COMMAND patch -t -p0 < ${CMAKE_CURRENT_SOURCE_DIR}/patch/googlemock-CMakeLists.txt.patch
+  INSTALL_COMMAND ""
+  CMAKE_ARGS "-Dgtest_dir=${VENDOR}/gtest"
+  )
+EXTERNALPROJECT_GET_PROPERTY (googlemock source_dir)
+INCLUDE_DIRECTORIES (${source_dir}/include)
+EXTERNALPROJECT_GET_PROPERTY (googlemock binary_dir)
+LINK_DIRECTORIES (${binary_dir})
 
 FILE (GLOB TESTING_SOURCES ${BEKOBREW_SOURCES} test/*_test.cpp test/*/*_test.cpp)
 LIST (REMOVE_ITEM TESTING_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/main.c")
 
 ADD_EXECUTABLE (run_test ${TESTING_SOURCES})
-ADD_DEPENDENCIES (run_test gtest)
+ADD_DEPENDENCIES (run_test googletest)
+ADD_DEPENDENCIES (run_test googlemock)
 TARGET_LINK_LIBRARIES (run_test
   gtest
   gtest_main
