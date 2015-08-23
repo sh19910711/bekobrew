@@ -45,6 +45,8 @@ static struct vector_t *parse_seq(yaml_parser_t *parser) {
       default:
         return NULL;
     }
+
+    yaml_token_delete(&token);
   }
 
   return v;
