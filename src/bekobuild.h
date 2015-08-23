@@ -7,7 +7,7 @@
 
 struct bekobuild_t {
   yaml_parser_t *parser;
-  const char *name;
+  char *name;
   struct vector_t *build;
   struct vector_t *package;
 };

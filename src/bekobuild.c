@@ -16,7 +16,7 @@ static void init_parser(yaml_parser_t *parser, FILE* file) {
   yaml_parser_set_input_file(parser, file);
 }
 
-static const char *to_string(yaml_token_t *token) {
+static char *to_string(yaml_token_t *token) {
   return strdup((const char *) token->data.scalar.value);
 }
 
@@ -50,7 +50,7 @@ static struct vector_t *parse_seq(yaml_parser_t *parser) {
   return v;
 }
 
-static const char **resolve_item(struct bekobuild_t *self, const char *key) {
+static char **resolve_item(struct bekobuild_t *self, const char *key) {
   if (!strcmp(key, "name")) {
     return &self->name;
   }
@@ -117,15 +117,10 @@ struct bekobuild_t *bekobuild_open(FILE* file) {
   return self;
 }
 
-static void free_vector(struct vector_t *v) {
-  if (v) {
-    vector_free(v);
-  }
-}
-
 void bekobuild_close(struct bekobuild_t *self) {
-  free_vector(self->build);
-  free_vector(self->package);
+  free(self->name);
+  vector_free(self->build);
+  vector_free(self->package);
   yaml_parser_delete(self->parser);
   free(self->parser);
   free(self);
