@@ -1,14 +1,14 @@
 #include "bekobuild.h"
 
 static struct bekobuild_t *new_bekobuild() {
-  return (struct bekobuild_t*) malloc(sizeof(struct bekobuild_t));
+  return (struct bekobuild_t *) malloc(sizeof(struct bekobuild_t));
 }
 
 static yaml_parser_t *new_parser() {
-  return (yaml_parser_t*) malloc(sizeof(yaml_parser_t));
+  return (yaml_parser_t *) malloc(sizeof(yaml_parser_t));
 }
 
-static void init_parser(yaml_parser_t *parser, FILE* file) {
+static void init_parser(yaml_parser_t *parser, FILE *file) {
   if (!yaml_parser_initialize(parser)) {
     fputs("ERROR: yaml_parser_initialize", stderr);
     exit(1);
@@ -72,7 +72,7 @@ static int parse(struct bekobuild_t *self) {
   yaml_token_t token;
   int done = 0;
   int flag_key = 0;
-  const char *item_key;
+  char *item_key;
 
   while (!done) {
     if (!yaml_parser_scan(self->parser, &token)) {
@@ -89,12 +89,14 @@ static int parse(struct bekobuild_t *self) {
           item_key = to_string(&token);
         } else {;
           *resolve_item(self, item_key) = to_string(&token);
+          free(item_key);
         }
         flag_key = 0;
         break;
 
       case YAML_BLOCK_SEQUENCE_START_TOKEN:
         *resolve_seq(self, item_key) = parse_seq(self->parser);
+        flag_key = 0;
         break;
 
       case YAML_STREAM_END_TOKEN:
