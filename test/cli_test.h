@@ -6,25 +6,52 @@ extern "C" {
   #include "version.h"
 }
 
-class CLITest : public ::testing::Test {
+static inline void push(struct cli_t *self, const char *arg) {
+  vector_push(self->args, node_new(strdup(arg)));
+}
+
+class CLITestBase : public ::testing::Test {
 protected:
-  struct cli_t *cli;
+  struct cli_t *self;
 
   virtual void SetUp() {
-    cli = cli_new();
-    push("bekobrew");
+    self = cli_new();
   }
 
   virtual void TearDown() {
-    cli_free(cli);
+    cli_free(self);
+  }
+};
+
+class CLITest : public CLITestBase {
+protected:
+  virtual void SetUp() {
+    CLITestBase::SetUp();
+    push(self, "bekobrew");
+  }
+};
+
+class CLITestWithArgv : public CLITestBase {
+protected:
+  int argc;
+  char **argv;
+
+  virtual void SetUp() {
+    CLITestBase::SetUp();
+
+    argc = 2;
+    argv = (char **)malloc(sizeof(char *) * argc);
+    argv[0] = strdup("bekobrew");
+    argv[1] = strdup("--version");
+
+    cli_set_arguments(self, argc, argv);
   }
 
-  const char *get_argument(int k) {
-    return node_to_string(vector_at(cli->args, k));
-  }
-
-  void push(const char *arg) {
-    vector_push(cli->args, node_new(strdup(arg)));
+  virtual void TearDown() {
+    CLITestBase::TearDown();
+    free(argv[0]);
+    free(argv[1]);
+    free(argv);
   }
 };
 
