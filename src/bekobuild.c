@@ -96,6 +96,7 @@ static int parse(struct bekobuild_t *self) {
 
       case YAML_BLOCK_SEQUENCE_START_TOKEN:
         *resolve_seq(self, item_key) = parse_seq(self->parser);
+        free(item_key);
         flag_key = 0;
         break;
 
