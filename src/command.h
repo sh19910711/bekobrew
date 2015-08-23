@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "inline_utils.h"
 #include "version.h"
 
 struct command {

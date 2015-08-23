@@ -1,5 +1,7 @@
 #include "command.h"
 
+#define ARRAY_SIZE(x) (sizeof(x)/sizeof(x[0]))
+
 static struct command sub_commands[] = {
   { "version", sub_command_version },
   { "help", sub_command_help },
