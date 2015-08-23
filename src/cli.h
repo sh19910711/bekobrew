@@ -3,12 +3,16 @@
 
 #include <string.h>
 
-#include "inline_utils.h"
+#include "string_utils.h"
 #include "command.h"
+#include "vector.h"
 
-static int start_with_hyphen(const char*);
-static int parse_cli_options(int *argc, const char ***argv);
+struct cli_t {
+  struct vector_t *args;
+};
 
-extern int cli_run(int argc, char **argv);
+extern struct cli_t *cli_new();
+extern void cli_free(struct cli_t *);
+extern int cli_run(struct cli_t *);
 
 #endif
