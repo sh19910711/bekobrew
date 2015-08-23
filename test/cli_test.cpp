@@ -1,5 +1,42 @@
 #include "./test_helper.h"
-#include "./cli_test.h"
+
+extern "C" {
+  #include "cli.h"
+  #include "version.h"
+}
+
+static inline void test_capture() {
+  testing::internal::CaptureStdout();
+}
+
+static inline std::string test_output() {
+  return testing::internal::GetCapturedStdout();
+}
+
+static inline void push(struct cli_t *self, const char *arg) {
+  string_vector_push(self->args, strdup(arg));
+}
+
+class CLITestBase : public ::testing::Test {
+protected:
+  struct cli_t *self;
+
+  virtual void SetUp() {
+    self = cli_new();
+  }
+
+  virtual void TearDown() {
+    cli_free(self);
+  }
+};
+
+class CLITest : public CLITestBase {
+protected:
+  virtual void SetUp() {
+    CLITestBase::SetUp();
+    push(self, "bekobrew");
+  }
+};
 
 TEST_F(CLITest, ParseWithoutArgs) {
   cli_parse(self);
@@ -43,6 +80,30 @@ TEST_F(CLITest, RunWithSubCommandVersion) {
   expected << "version " << BEKOBREW_VERSION;
   ASSERT_TRUE(test_output().find(expected.str(), 0) != std::string::npos);
 }
+
+class CLITestWithArgv : public CLITestBase {
+protected:
+  int argc;
+  char **argv;
+
+  virtual void SetUp() {
+    CLITestBase::SetUp();
+
+    argc = 2;
+    argv = (char **)malloc(sizeof(char *) * argc);
+    argv[0] = strdup("bekobrew");
+    argv[1] = strdup("--version");
+
+    cli_set_arguments(self, argc, argv);
+  }
+
+  virtual void TearDown() {
+    CLITestBase::TearDown();
+    free(argv[0]);
+    free(argv[1]);
+    free(argv);
+  }
+};
 
 TEST_F(CLITestWithArgv, Parse) {
   cli_parse(self);
