@@ -22,8 +22,10 @@ static int is_sub_command(const char *s) {
 
 struct vector_t *get_sub_command_args(struct cli_t *self) {
   struct vector_t *args = vector_new();
-  args->size = self->args->size - self->last_index;
-  args->data = self->args->data + self->last_index;
+  int i;
+  for (i = self->last_index; i < self->args->size; ++i) {
+    vector_push(args, node_new(strdup(node_to_string(vector_at(self->args, i)))));
+  }
   return args;
 }
 
@@ -44,7 +46,7 @@ int cli_run(struct cli_t *self) {
   } else {
     ret = command_find("help")->call(sub_args);
   }
-  free(sub_args);
+  vector_free(sub_args);
 
   return ret;
 }
