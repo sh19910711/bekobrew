@@ -1,4 +1,59 @@
 #include "bekobuild.h"
+#include "context.h"
+
+static yaml_parser_t *new_parser();
+static void init_parser(yaml_parser_t *, FILE *);
+static char *to_string(yaml_token_t *);
+static struct string_vector_t *parse_seq(yaml_parser_t *);
+static char **resolve_item(struct bekobuild_t *, const char *);
+static struct string_vector_t **resolve_seq(struct bekobuild_t *, const char *);
+static int parse(struct bekobuild_t *);
+static struct context_t *get_context(struct bekobuild_t *);
+static char *copy_attribute(const char *);
+static inline void free_string(void *);
+static inline void free_seq(void *);
+static inline void free_attributes(struct bekobuild_t *);
+static inline void free_parser(void *);
+
+/*** public functions ***/
+
+struct bekobuild_t *bekobuild_new() {
+  return (struct bekobuild_t *) calloc(1, sizeof(struct bekobuild_t));
+}
+
+void bekobuild_free(struct bekobuild_t *self) {
+  free_string(self->name);
+  free_string(self->version);
+  free_seq(self->build);
+  free_seq(self->package);
+  free_parser(self->parser);
+  free(self);
+}
+
+int bekobuild_open(struct bekobuild_t *self, FILE* file) {
+  self->parser = new_parser();
+  init_parser(self->parser, file);
+  return parse(self);
+}
+
+struct bekobuild_t *bekobuild_expand(struct bekobuild_t *self) {
+  struct context_t *context = get_context(self);
+  struct bekobuild_t *expanded = bekobuild_new();
+
+  expanded->name    = copy_attribute(self->name);
+  expanded->version = copy_attribute(self->version);
+  expanded->build   = context_expand_string_vector(context, self->build);
+  expanded->package = context_expand_string_vector(context, self->package);
+
+  context_free(context);
+  return expanded;
+}
+
+/*** private functions ***/
+
+static char *to_string(yaml_token_t *token) {
+  return strdup((const char *) token->data.scalar.value);
+}
 
 static yaml_parser_t *new_parser() {
   return (yaml_parser_t *) malloc(sizeof(yaml_parser_t));
@@ -10,10 +65,6 @@ static void init_parser(yaml_parser_t *parser, FILE *file) {
     exit(1);
   }
   yaml_parser_set_input_file(parser, file);
-}
-
-static char *to_string(yaml_token_t *token) {
-  return strdup((const char *) token->data.scalar.value);
 }
 
 static struct string_vector_t *parse_seq(yaml_parser_t *parser) {
@@ -109,50 +160,6 @@ static int parse(struct bekobuild_t *self) {
   return 1;
 }
 
-struct bekobuild_t *bekobuild_new() {
-  struct bekobuild_t *self = (struct bekobuild_t *) malloc(sizeof(struct bekobuild_t));
-  self->parser = NULL;
-  self->name = NULL;
-  self->version = NULL;
-  self->build = NULL;
-  self->package = NULL;
-  return self;
-}
-
-static void free_string(void *attr) {
-  if (attr) {
-    free(attr);
-  }
-}
-
-static void free_seq(void *seq) {
-  if (seq) {
-    string_vector_free(seq);
-  }
-}
-
-static void free_attributes(struct bekobuild_t *self) {
-  free_string(self->name);
-  free_string(self->version);
-  free_seq(self->build);
-  free_seq(self->package);
-}
-
-void bekobuild_free(struct bekobuild_t *self) {
-  free_attributes(self);
-  if (self->parser) {
-    yaml_parser_delete(self->parser);
-    free(self->parser);
-  }
-  free(self);
-}
-
-int bekobuild_open(struct bekobuild_t *self, FILE* file) {
-  self->parser = new_parser();
-  init_parser(self->parser, file);
-  return parse(self);
-}
-
 static struct context_t *get_context(struct bekobuild_t *self) {
   struct context_t *context = context_new();
   if (self->name) {
@@ -165,12 +172,25 @@ static struct context_t *get_context(struct bekobuild_t *self) {
   return context;
 }
 
-struct bekobuild_t *bekobuild_expand(struct bekobuild_t *self) {
-  struct context_t *context = get_context(self);
-  struct bekobuild_t *expanded = bekobuild_new();
-  int i;
-  expanded->build = context_expand_string_vector(context, self->build);
-  expanded->package = context_expand_string_vector(context, self->package);
-  context_free(context);
-  return expanded;
+static char *copy_attribute(const char *s) {
+  return s ? strdup(s) : NULL;
+}
+
+static inline void free_string(void *attr) {
+  if (attr) {
+    free(attr);
+  }
+}
+
+static inline void free_seq(void *seq) {
+  if (seq) {
+    string_vector_free(seq);
+  }
+}
+
+static inline void free_parser(void *parser) {
+  if (parser) {
+    yaml_parser_delete(parser);
+    free(parser);
+  }
 }
