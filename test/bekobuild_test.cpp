@@ -51,7 +51,7 @@ protected:
 
   virtual void SetUp() {
     BekobuildTest::SetUp();
-    expanded = bekobuild_eval(self);
+    expanded = bekobuild_expand(self);
   }
 
   virtual void TearDown() {
