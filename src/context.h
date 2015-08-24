@@ -1,9 +1,6 @@
 #ifndef CONTEXT_H
 #define CONTEXT_H
 
-#include <string.h>
-#include <stdlib.h>
-
 #include "string_map.h"
 #include "string_vector.h"
 
