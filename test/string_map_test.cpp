@@ -20,18 +20,17 @@ protected:
 TEST_F(MapTest, SetAndGet) {
   ASSERT_TRUE(string_map_set(self, "hello", "world"));
   ASSERT_TRUE(string_map_set(self, "world", "hello"));
-  ASSERT_STREQ("world", string_map_get_as_string(self, "hello"));
-  ASSERT_STREQ("hello", string_map_get_as_string(self, "world"));
+  ASSERT_STREQ("world", string_map_get(self, "hello"));
+  ASSERT_STREQ("hello", string_map_get(self, "world"));
 }
 
 TEST_F(MapTest, OverrideValue) {
   ASSERT_TRUE(string_map_set(self, "hello", "world"));
   ASSERT_TRUE(string_map_set(self, "world", "hello"));
   ASSERT_TRUE(string_map_set(self, "hello", "world2"));
-  ASSERT_STREQ("world2", string_map_get_as_string(self, "hello"));
-  ASSERT_STREQ("hello", string_map_get_as_string(self, "world"));
+  ASSERT_STREQ("world2", string_map_get(self, "hello"));
 }
 
 TEST_F(MapTest, NotFound) {
-  ASSERT_FALSE(string_map_get_as_string(self, "not-found"));
+  ASSERT_FALSE(string_map_get(self, "not-found"));
 }
