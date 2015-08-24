@@ -11,7 +11,6 @@ struct string_map_t {
 extern struct string_map_t *string_map_new();
 extern void string_map_free(struct string_map_t *);
 extern struct string_map_t *string_map_set(struct string_map_t *, const char *, const void *);
-extern const void *string_map_get(struct string_map_t *, const char *);
-extern const char *string_map_get_as_string(struct string_map_t *, const char *);
+extern const char *string_map_get(struct string_map_t *, const char *);
 
 #endif

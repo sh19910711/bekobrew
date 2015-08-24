@@ -47,15 +47,11 @@ struct string_map_t *string_map_set(struct string_map_t *self, const char *key, 
   }
 }
 
-const void *string_map_get(struct string_map_t *self, const char *key) {
+const char *string_map_get(struct string_map_t *self, const char *key) {
   struct string_map_t *found_node = find(&self, key, 0);
   if (found_node) {
     return found_node->value;
   } else {
     return NULL;
   }
-}
-
-const char *string_map_get_as_string(struct string_map_t *self, const char *key) {
-  return (const char *) string_map_get(self, key);
 }
