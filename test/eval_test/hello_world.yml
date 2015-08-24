@@ -1,0 +1,4 @@
+name: hello-world
+build:
+  - echo hello
+  - echo world
