@@ -1,0 +1,11 @@
+name: package-name
+version: 1.2.3
+
+# comment
+build:
+  - "echo build: $name"
+  - "echo build: $version"
+
+package:
+  - "echo package: $name"
+  - "echo package: $version"
