@@ -129,6 +129,9 @@ static int parse(struct bekobuild_t *self) {
     }
 
     switch (token.type) {
+      case YAML_STREAM_START_TOKEN:
+        break;
+
       case YAML_KEY_TOKEN:
         flag_key = 1;
         break;
@@ -143,15 +146,32 @@ static int parse(struct bekobuild_t *self) {
         flag_key = 0;
         break;
 
+      case YAML_VALUE_TOKEN:
+        break;
+
       case YAML_BLOCK_SEQUENCE_START_TOKEN:
         *resolve_seq(self, item_key) = parse_seq(self->parser);
         free(item_key);
         flag_key = 0;
         break;
 
+      case YAML_BLOCK_MAPPING_START_TOKEN:
+        break;
+
+      case YAML_BLOCK_END_TOKEN:
+        break;
+
       case YAML_STREAM_END_TOKEN:
         done = 1;
         break;
+
+      case YAML_ALIAS_TOKEN:
+        break;
+
+      default:
+        fprintf(stderr, "WARN: YAML Unknown Token: %d\n", token.type);
+        break;
+
     }
 
     yaml_token_delete(&token);
