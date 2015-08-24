@@ -6,6 +6,7 @@ static struct command sub_commands[] = {
   { "version", sub_command_version },
   { "help", sub_command_help },
   { "install", sub_command_install },
+  { "build", sub_command_build },
 };
 
 struct command *command_find(const char *cmd_name) {

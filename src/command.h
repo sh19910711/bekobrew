@@ -15,6 +15,7 @@ struct command {
 extern int sub_command_version(struct string_vector_t *);
 extern int sub_command_help(struct string_vector_t *);
 extern int sub_command_install(struct string_vector_t *);
+extern int sub_command_build(struct string_vector_t *);
 
 extern struct command *command_find(const char *cmd_name);
 
