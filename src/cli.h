@@ -3,8 +3,6 @@
 
 #include <string.h>
 
-#include "string_utils.h"
-#include "command.h"
 #include "string_vector.h"
 
 struct cli_t {

@@ -1,8 +1,14 @@
 #include "cli.h"
+#include "string_utils.h"
+#include "command.h"
 
-static const char *get_argument(struct cli_t *self, int k) {
-  return string_vector_at(self->args, k);
-}
+#include <stdlib.h>
+
+static const char *get_argument(struct cli_t *self, int k);
+static int is_sub_command(const char *s);
+static int parse_option(struct cli_t *self, const char *s);
+
+/*** public functions ***/
 
 struct cli_t *cli_new() {
   struct cli_t *self = (struct cli_t *) malloc(sizeof(struct cli_t));
@@ -14,10 +20,6 @@ struct cli_t *cli_new() {
 void cli_free(struct cli_t *self) {
   string_vector_free(self->args);
   free(self);
-}
-
-static int is_sub_command(const char *s) {
-  return !string_start_with(s, '-');
 }
 
 struct string_vector_t *get_sub_command_args(struct cli_t *self) {
@@ -51,14 +53,6 @@ int cli_run(struct cli_t *self) {
   return ret;
 }
 
-static int parse_option(struct cli_t *self, const char *s) {
-  if (!strcmp("--version", s)) {
-    self->sub_command = "version";
-    return 1;
-  }
-  return 0;
-}
-
 int cli_parse(struct cli_t *self) {
   self->command = get_argument(self, 0);
 
@@ -77,4 +71,22 @@ int cli_parse(struct cli_t *self) {
   }
 
   return 1;
+}
+
+/*** private functions ***/
+
+static const char *get_argument(struct cli_t *self, int k) {
+  return string_vector_at(self->args, k);
+}
+
+static int is_sub_command(const char *s) {
+  return !string_start_with(s, '-');
+}
+
+static int parse_option(struct cli_t *self, const char *s) {
+  if (!strcmp("--version", s)) {
+    self->sub_command = "version";
+    return 1;
+  }
+  return 0;
 }
