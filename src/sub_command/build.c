@@ -2,6 +2,8 @@
 #include "bekobuild.h"
 #include "eval.h"
 
+#include <stdio.h>
+
 int sub_command_build(struct string_vector_t *args) {
   FILE *fp = fopen("./BEKOBUILD", "r");
   struct bekobuild_t *src = bekobuild_new();
