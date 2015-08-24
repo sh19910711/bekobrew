@@ -1,8 +1,6 @@
 #ifndef STRING_VECTOR_H
 #define STRING_VECTOR_H
 
-#include <stdlib.h>
-
 struct string_vector_t {
   int size;
   int capacity;
