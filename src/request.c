@@ -8,19 +8,16 @@
 
 #include "request.h"
 
-static size_t write_response(void *ptr, size_t size, size_t nmemb, void *stream) {
-  struct write_result *result = (struct write_result *) stream;
+#include <curl/curl.h>
+#include <stdlib.h>
+#include <string.h>
 
-  if (result->pos + size * nmemb >= BUFFER_SIZE - 1) {
-    fprintf(stderr, "error: too small buffer\n");
-    return 0;
-  }
+#define BUFFER_SIZE (256 * 1024)
+#define URL_SIZE (256)
 
-  memcpy(result->data + result->pos, ptr, size * nmemb);
-  result->pos += size * nmemb;
+static size_t write_response(void *, size_t, size_t, void *);
 
-  return size * nmemb;
-}
+/*** public functions ***/
 
 char *request(const char *url) {
   CURL *curl = NULL;
@@ -81,4 +78,20 @@ error:
     curl_slist_free_all(headers);
   curl_global_cleanup();
   return NULL;
+}
+
+/*** private functions ***/
+
+static size_t write_response(void *ptr, size_t size, size_t nmemb, void *stream) {
+  struct write_result *result = (struct write_result *) stream;
+
+  if (result->pos + size * nmemb >= BUFFER_SIZE - 1) {
+    fprintf(stderr, "error: too small buffer\n");
+    return 0;
+  }
+
+  memcpy(result->data + result->pos, ptr, size * nmemb);
+  result->pos += size * nmemb;
+
+  return size * nmemb;
 }
