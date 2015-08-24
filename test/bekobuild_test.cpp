@@ -80,12 +80,12 @@ TEST_F(BekobuildEvalTest, ExpandedBuild) {
   ASSERT_TRUE(expanded->build);
   ASSERT_EQ(2, expanded->build->size);
   ASSERT_STREQ("echo build: package-name", string_vector_at(expanded->build, 0));
-  ASSERT_STREQ("echo build: 1.2", string_vector_at(expanded->build, 1));
+  ASSERT_STREQ("echo build: 1.2.3", string_vector_at(expanded->build, 1));
 }
 
 TEST_F(BekobuildEvalTest, ExpandedPackage) {
   ASSERT_TRUE(expanded->package);
   ASSERT_EQ(2, expanded->package->size);
   ASSERT_STREQ("echo package: package-name", string_vector_at(expanded->package, 0));
-  ASSERT_STREQ("echo package: 1.2", string_vector_at(expanded->package, 1));
+  ASSERT_STREQ("echo package: 1.2.3", string_vector_at(expanded->package, 1));
 }
