@@ -1,9 +1,5 @@
 #include "bekobuild.h"
 
-static struct bekobuild_t *new_bekobuild() {
-  return (struct bekobuild_t *) malloc(sizeof(struct bekobuild_t));
-}
-
 static yaml_parser_t *new_parser() {
   return (yaml_parser_t *) malloc(sizeof(yaml_parser_t));
 }
@@ -55,6 +51,8 @@ static struct string_vector_t *parse_seq(yaml_parser_t *parser) {
 static char **resolve_item(struct bekobuild_t *self, const char *key) {
   if (!strcmp(key, "name")) {
     return &self->name;
+  } else if (!strcmp(key, "version")) {
+    return &self->version;
   }
   return NULL;
 }
@@ -111,22 +109,67 @@ static int parse(struct bekobuild_t *self) {
   return 1;
 }
 
-struct bekobuild_t *bekobuild_open(FILE* file) {
-  struct bekobuild_t *self = new_bekobuild();
-  self->parser = new_parser();
-  init_parser(self->parser, file);
-  if (!parse(self)) {
-    bekobuild_close(self);
-    return NULL;
-  }
+struct bekobuild_t *bekobuild_new() {
+  struct bekobuild_t *self = (struct bekobuild_t *) malloc(sizeof(struct bekobuild_t));
+  self->parser = NULL;
+  self->name = NULL;
+  self->version = NULL;
+  self->build = NULL;
+  self->package = NULL;
   return self;
 }
 
-void bekobuild_close(struct bekobuild_t *self) {
-  free(self->name);
-  string_vector_free(self->build);
-  string_vector_free(self->package);
-  yaml_parser_delete(self->parser);
-  free(self->parser);
+static void free_string(void *attr) {
+  if (attr) {
+    free(attr);
+  }
+}
+
+static void free_seq(void *seq) {
+  if (seq) {
+    string_vector_free(seq);
+  }
+}
+
+static void free_attributes(struct bekobuild_t *self) {
+  free_string(self->name);
+  free_string(self->version);
+  free_seq(self->build);
+  free_seq(self->package);
+}
+
+void bekobuild_free(struct bekobuild_t *self) {
+  free_attributes(self);
+  if (self->parser) {
+    yaml_parser_delete(self->parser);
+    free(self->parser);
+  }
   free(self);
+}
+
+int bekobuild_open(struct bekobuild_t *self, FILE* file) {
+  self->parser = new_parser();
+  init_parser(self->parser, file);
+  return parse(self);
+}
+
+static struct string_map_t *get_context(struct bekobuild_t *self) {
+  struct string_map_t *context = string_map_new();
+  if (self->name) {
+    string_map_set(context, "name", self->name);
+  }
+  if (self->version) {
+    string_map_set(context, "version", self->version);
+  }
+  return context;
+}
+
+struct bekobuild_t *bekobuild_eval(struct bekobuild_t *self) {
+  struct string_map_t *context = get_context(self);
+  struct bekobuild_t *expanded = bekobuild_new();
+  int i;
+  expanded->build = expand_string_vector(context, self->build);
+  expanded->package = expand_string_vector(context, self->package);
+  string_map_free(context);
+  return expanded;
 }
