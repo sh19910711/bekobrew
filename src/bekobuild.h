@@ -5,7 +5,7 @@
 
 #include "string_vector.h"
 #include "string_map.h"
-#include "expand.h"
+#include "context.h"
 
 struct bekobuild_t {
   yaml_parser_t *parser;

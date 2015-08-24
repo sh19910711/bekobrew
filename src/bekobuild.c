@@ -153,23 +153,24 @@ int bekobuild_open(struct bekobuild_t *self, FILE* file) {
   return parse(self);
 }
 
-static struct string_map_t *get_context(struct bekobuild_t *self) {
-  struct string_map_t *context = string_map_new();
+static struct context_t *get_context(struct bekobuild_t *self) {
+  struct context_t *context = context_new();
   if (self->name) {
-    string_map_set(context, "name", self->name);
+    string_map_set(context->map, "name", self->name);
   }
   if (self->version) {
-    string_map_set(context, "version", self->version);
+    string_map_set(context->map, "version", self->version);
   }
+  context_calc_max_length(context);
   return context;
 }
 
 struct bekobuild_t *bekobuild_eval(struct bekobuild_t *self) {
-  struct string_map_t *context = get_context(self);
+  struct context_t *context = get_context(self);
   struct bekobuild_t *expanded = bekobuild_new();
   int i;
-  expanded->build = expand_string_vector(context, self->build);
-  expanded->package = expand_string_vector(context, self->package);
-  string_map_free(context);
+  expanded->build = context_expand_string_vector(context, self->build);
+  expanded->package = context_expand_string_vector(context, self->package);
+  context_free(context);
   return expanded;
 }
