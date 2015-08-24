@@ -12,8 +12,10 @@ protected:
   virtual void SetUp() {
     test_capture();
     fp = fopen(path(), "r");
-    bekobuild = bekobuild_new();
-    bekobuild_open(bekobuild, fp);
+    struct bekobuild_t *bekobuild_src = bekobuild_new();
+    bekobuild_open(bekobuild_src, fp);
+    bekobuild = bekobuild_eval(bekobuild_src);
+    bekobuild_free(bekobuild_src);
     eval(bekobuild);
   }
 
@@ -38,4 +40,19 @@ TEST_F(EvalHelloWorld, Hello) {
 
 TEST_F(EvalHelloWorld, World) {
   ASSERT_TRUE(test_output().find("world", 0) != std::string::npos);
+}
+
+class EvalHelloPackage : public EvalTest {
+protected:
+  const char *path() {
+    return "./test/eval_test/hello_package.yml";
+  }
+};
+
+TEST_F(EvalHelloPackage, Hello) {
+  ASSERT_TRUE(test_output().find("hello", 0) != std::string::npos);
+}
+
+TEST_F(EvalHelloPackage, Package) {
+  ASSERT_TRUE(test_output().find("hello-package", 0) != std::string::npos);
 }

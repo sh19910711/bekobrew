@@ -1,0 +1,4 @@
+name: hello-package
+build: #comment
+  - echo hello
+  - echo $name
