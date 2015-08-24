@@ -5,4 +5,12 @@
 #include <gtest/internal/gtest-port.h>
 #include <sstream>
 
+static inline void test_capture() {
+  testing::internal::CaptureStdout();
+}
+
+static inline std::string test_output() {
+  return testing::internal::GetCapturedStdout();
+}
+
 #endif
