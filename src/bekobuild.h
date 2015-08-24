@@ -18,6 +18,6 @@ struct bekobuild_t {
 extern struct bekobuild_t *bekobuild_new();
 extern void bekobuild_free(struct bekobuild_t *);
 extern int bekobuild_open(struct bekobuild_t *, FILE *);
-extern struct bekobuild_t *bekobuild_eval(struct bekobuild_t *);
+extern struct bekobuild_t *bekobuild_expand(struct bekobuild_t *);
 
 #endif

@@ -165,7 +165,7 @@ static struct context_t *get_context(struct bekobuild_t *self) {
   return context;
 }
 
-struct bekobuild_t *bekobuild_eval(struct bekobuild_t *self) {
+struct bekobuild_t *bekobuild_expand(struct bekobuild_t *self) {
   struct context_t *context = get_context(self);
   struct bekobuild_t *expanded = bekobuild_new();
   int i;
