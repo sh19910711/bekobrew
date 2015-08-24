@@ -6,7 +6,8 @@
 
 static const char *get_argument(struct cli_t *self, int k);
 static int is_sub_command(const char *s);
-static int parse_option(struct cli_t *self, const char *s);
+static int parse_option(struct cli_t *, const char *s);
+static struct string_vector_t *get_sub_command_args(struct cli_t *);
 
 /*** public functions ***/
 
@@ -20,15 +21,6 @@ struct cli_t *cli_new() {
 void cli_free(struct cli_t *self) {
   string_vector_free(self->args);
   free(self);
-}
-
-struct string_vector_t *get_sub_command_args(struct cli_t *self) {
-  struct string_vector_t *args = string_vector_new();
-  int i;
-  for (i = self->last_index; i < self->args->size; ++i) {
-    string_vector_push(args, strdup(string_vector_at(self->args, i)));
-  }
-  return args;
 }
 
 void cli_set_arguments(struct cli_t *self, int argc, char **argv) {
@@ -89,4 +81,13 @@ static int parse_option(struct cli_t *self, const char *s) {
     return 1;
   }
   return 0;
+}
+
+static struct string_vector_t *get_sub_command_args(struct cli_t *self) {
+  struct string_vector_t *args = string_vector_new();
+  int i;
+  for (i = self->last_index; i < self->args->size; ++i) {
+    string_vector_push(args, strdup(string_vector_at(self->args, i)));
+  }
+  return args;
 }
