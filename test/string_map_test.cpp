@@ -34,3 +34,10 @@ TEST_F(MapTest, OverrideValue) {
 TEST_F(MapTest, NotFound) {
   ASSERT_FALSE(string_map_get(self, "not-found"));
 }
+
+TEST_F(MapTest, Depth) {
+  ASSERT_EQ(0, string_map_get_depth(self));
+  string_map_set(self, "key", "value");
+  string_map_set(self, "hello", "new-world");
+  ASSERT_EQ(9, string_map_get_depth(self));
+}
