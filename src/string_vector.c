@@ -5,11 +5,12 @@
 static inline int get_capacity(int capacity);
 static inline int is_full(struct string_vector_t *self);
 static void resize(struct string_vector_t *self);
+static inline struct string_vector_t *allocate();
 
 /*** public functions ***/
 
 struct string_vector_t *string_vector_new() {
-  struct string_vector_t *self = (struct string_vector_t *) malloc(sizeof(struct string_vector_t));
+  struct string_vector_t *self = allocate();
   self->size = 0;
   self->capacity = 1;
   self->data = (char **) malloc(get_capacity(self->capacity));
@@ -54,4 +55,8 @@ static void resize(struct string_vector_t *self) {
   } else {
     self->data = (char **)tmp;
   }
+}
+
+static inline struct string_vector_t *allocate() {
+  return (struct string_vector_t *) malloc(sizeof(struct string_vector_t));
 }
