@@ -5,14 +5,6 @@ extern "C" {
   #include "version.h"
 }
 
-static inline void test_capture() {
-  testing::internal::CaptureStdout();
-}
-
-static inline std::string test_output() {
-  return testing::internal::GetCapturedStdout();
-}
-
 static inline void push(struct cli_t *self, const char *arg) {
   string_vector_push(self->args, strdup(arg));
 }
