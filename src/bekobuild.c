@@ -1,6 +1,8 @@
 #include "bekobuild.h"
 #include "context.h"
 
+#include <unistd.h>
+
 static yaml_parser_t *new_parser();
 static void init_parser(yaml_parser_t *, FILE *);
 static char *to_string(yaml_token_t *);
@@ -139,6 +141,8 @@ static struct string_vector_t **resolve_seq(struct bekobuild_t *self, const char
 static inline void copy_string_pointer(char **dst, char *p) {
   if (dst && p) {
     *dst = p;
+  } else if (p) {
+    free(p);
   }
 }
 
