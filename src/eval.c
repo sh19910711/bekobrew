@@ -9,14 +9,15 @@ static void append(char **, const char *);
 
 int eval(struct bekobuild_t *bekobuild) {
   char command[512];
-  int i;
+  char *script;
 
   mkdir(bekobuild->srcdir, 0755);
   mkdir(bekobuild->pkgdir, 0755);
 
-  for (i = 0; i < bekobuild->build->size; ++i) {
-    system(string_vector_at(bekobuild->build, i));
-  }
+  script = eval_get_script(bekobuild->build);
+  printf("script:\n%s\n", script);
+  system(script);
+  free(script);
 }
 
 char *eval_get_script(struct string_vector_t *commands) {
@@ -25,11 +26,9 @@ char *eval_get_script(struct string_vector_t *commands) {
   char *p = script;
   int i;
   for (i = 0; i < commands->size; ++i) {
-    printf("%d: %s\n", i, string_vector_at(commands, i));
     append(&p, string_vector_at(commands, i));
   }
   *p = '\0';
-  printf("script: %s\n", script);
   return script;
 }
 
