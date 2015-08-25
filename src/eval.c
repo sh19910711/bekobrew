@@ -3,6 +3,7 @@
 #include <sys/stat.h>
 
 static int calc_script_length(struct string_vector_t *commands);
+static void append(char **, const char *);
 
 /*** public functions ***/
 
@@ -16,16 +17,6 @@ int eval(struct bekobuild_t *bekobuild) {
   for (i = 0; i < bekobuild->build->size; ++i) {
     system(string_vector_at(bekobuild->build, i));
   }
-}
-
-static void append(char **t, const char *s) {
-  while (*s != '\0') {
-    **t = *s;
-    ++(*t);
-    ++s;
-  }
-  **t = '\n';
-  ++(*t);
 }
 
 char *eval_get_script(struct string_vector_t *commands) {
@@ -43,6 +34,18 @@ char *eval_get_script(struct string_vector_t *commands) {
 }
 
 /*** private functions ***/
+
+static void append(char **t, const char *s) {
+  char *p = *t;
+  while (*s != '\0') {
+    *p = *s;
+    ++p;
+    ++s;
+  }
+  *p = '\n';
+  ++p;
+  *t = p;
+}
 
 static int calc_script_length(struct string_vector_t *commands) {
   int len = 1;
