@@ -104,6 +104,18 @@ TEST_F(BekobuildEvalTest, ExpandedVersion) {
   ASSERT_STREQ("1.2.3", expanded->version);
 }
 
+TEST_F(BekobuildEvalTest, ExpandedSources) {
+  ASSERT_TRUE(expanded->sources);
+  ASSERT_EQ(1, expanded->sources->size);
+  ASSERT_STREQ("https://example.com/packages/package-name-1.2.3.tar.gz", string_vector_at(expanded->sources, 0));
+}
+
+TEST_F(BekobuildEvalTest, ExpandedSums) {
+  ASSERT_TRUE(expanded->sums);
+  ASSERT_EQ(1, expanded->sums->size);
+  ASSERT_STREQ("SHA-256", string_vector_at(expanded->sums, 0));
+}
+
 TEST_F(BekobuildEvalTest, ExpandedBuild) {
   ASSERT_TRUE(expanded->build);
   ASSERT_EQ(2, expanded->build->size);
