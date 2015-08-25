@@ -75,6 +75,7 @@ protected:
   }
 
   virtual void TearDown() {
+    EvalTest::TearDown();
     test_rmdir(tmpdir.c_str());
   }
 
