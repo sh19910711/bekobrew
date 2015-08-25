@@ -106,6 +106,7 @@ static char **resolve_item(struct bekobuild_t *self, const char *key) {
   } else if (!strcmp(key, "version")) {
     return &self->version;
   }
+  fprintf(stderr, "WARN: BEKOBUILD Unknown Key: %s\n", key);
   return NULL;
 }
 
@@ -115,7 +116,20 @@ static struct string_vector_t **resolve_seq(struct bekobuild_t *self, const char
   } else if (!strcmp(key, "package")) {
     return &self->package;
   }
+  fprintf(stderr, "WARN: BEKOBUILD Unknown Key: %s\n", key);
   return NULL;
+}
+
+static inline void copy_string_pointer(char **dst, char *p) {
+  if (dst && p) {
+    *dst = p;
+  }
+}
+
+static inline void copy_seq_pointer(struct string_vector_t **dst, struct string_vector_t *p) {
+  if (dst && p) {
+    *dst = p;
+  }
 }
 
 static int parse(struct bekobuild_t *self) {
@@ -140,8 +154,8 @@ static int parse(struct bekobuild_t *self) {
       case YAML_SCALAR_TOKEN:
         if (flag_key) {
           item_key = to_string(&token);
-        } else {;
-          *resolve_item(self, item_key) = to_string(&token);
+        } else {
+          copy_string_pointer(resolve_item(self, item_key), to_string(&token));
           free(item_key);
         }
         flag_key = 0;
@@ -151,7 +165,7 @@ static int parse(struct bekobuild_t *self) {
         break;
 
       case YAML_BLOCK_SEQUENCE_START_TOKEN:
-        *resolve_seq(self, item_key) = parse_seq(self->parser);
+        copy_seq_pointer(resolve_seq(self, item_key), parse_seq(self->parser));
         free(item_key);
         flag_key = 0;
         break;

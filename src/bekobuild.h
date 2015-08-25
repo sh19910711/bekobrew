@@ -9,6 +9,8 @@ struct bekobuild_t {
   yaml_parser_t *parser;
   char *name;
   char *version;
+  struct string_vector_t *sources;
+  struct string_vector_t *sums;
   struct string_vector_t *build;
   struct string_vector_t *package;
 };
