@@ -6,7 +6,12 @@
 #include "string_vector.h"
 
 struct bekobuild_t {
+  // System Attributes
   yaml_parser_t *parser;
+  char *srcdir;
+  char *pkgdir;
+
+  // User Attributes
   char *name;
   char *version;
   struct string_vector_t *sources;

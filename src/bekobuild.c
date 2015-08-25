@@ -1,6 +1,8 @@
 #include "bekobuild.h"
 #include "context.h"
 
+#include <unistd.h>
+
 static yaml_parser_t *new_parser();
 static void init_parser(yaml_parser_t *, FILE *);
 static char *to_string(yaml_token_t *);
@@ -14,6 +16,7 @@ static inline void free_string(void *);
 static inline void free_seq(void *);
 static inline void free_attributes(struct bekobuild_t *);
 static inline void free_parser(void *);
+static void update_system_attributes(struct bekobuild_t *);
 
 /*** public functions ***/
 
@@ -35,7 +38,9 @@ void bekobuild_free(struct bekobuild_t *self) {
 int bekobuild_open(struct bekobuild_t *self, FILE* file) {
   self->parser = new_parser();
   init_parser(self->parser, file);
-  return parse(self);
+  int ret = parse(self);
+  update_system_attributes(self);
+  return ret;
 }
 
 struct bekobuild_t *bekobuild_expand(struct bekobuild_t *self) {
@@ -205,12 +210,10 @@ static int parse(struct bekobuild_t *self) {
 
 static struct context_t *get_context(struct bekobuild_t *self) {
   struct context_t *context = context_new();
-  if (self->name) {
-    string_map_set(context->map, "name", self->name);
-  }
-  if (self->version) {
-    string_map_set(context->map, "version", self->version);
-  }
+  string_map_set(context->map, "srcdir", self->srcdir);
+  string_map_set(context->map, "pkgdir", self->pkgdir);
+  string_map_set(context->map, "name", self->name);
+  string_map_set(context->map, "version", self->version);
   context_calc_max_length(context);
   return context;
 }
@@ -236,4 +239,17 @@ static inline void free_parser(void *parser) {
     yaml_parser_delete(parser);
     free(parser);
   }
+}
+
+void update_system_attribute(char **dst, const char *src) {
+  *dst = strdup(src);
+}
+
+static void update_system_attributes(struct bekobuild_t *self) {
+  char buf[256];
+  char cwd[256];
+
+  getcwd(cwd, 256);
+  sprintf(buf, "%s/%s", cwd, self->name);
+  update_system_attribute(&self->srcdir, buf);
 }
