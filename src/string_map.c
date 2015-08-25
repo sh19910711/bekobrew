@@ -47,7 +47,7 @@ const char *string_map_get(const struct string_map_t *self, const char *key) {
   }
 }
 
-extern int string_map_get_depth(const struct string_map_t *self) {
+int string_map_get_depth(const struct string_map_t *self) {
   int best = 0;
   int i;
   if (self->value) {
