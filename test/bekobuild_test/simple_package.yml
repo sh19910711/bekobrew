@@ -5,7 +5,7 @@ sources:
   - http://localhost:8080/path/to/package.tar.gz
 
 sums:
-  - sha-1-sum
+  - SHA-256
 
 # comment
 build:

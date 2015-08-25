@@ -1,6 +1,12 @@
 name: package-name
 version: 1.2.3
 
+sources:
+  - https://example.com/packages/$name-$version.tar.gz
+
+sums:
+  - SHA-256
+
 # comment
 build:
   - "echo build: $name"

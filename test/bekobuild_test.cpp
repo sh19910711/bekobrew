@@ -45,7 +45,7 @@ TEST_F(BekobuildSimplePackage, Sources) {
 TEST_F(BekobuildSimplePackage, Sums) {
   ASSERT_TRUE(self->sums);
   ASSERT_EQ(1, self->sums->size);
-  ASSERT_STREQ("sha-1-sum", string_vector_at(self->sums, 0));
+  ASSERT_STREQ("SHA-256", string_vector_at(self->sums, 0));
 }
 
 TEST_F(BekobuildSimplePackage, Build) {
@@ -81,15 +81,27 @@ protected:
 };
 
 TEST_F(BekobuildEvalTest, SourceBuild) {
+  ASSERT_TRUE(self->build);
   ASSERT_EQ(2, self->build->size);
   ASSERT_STREQ("echo build: $name", string_vector_at(self->build, 0));
   ASSERT_STREQ("echo build: $version", string_vector_at(self->build, 1));
 }
 
 TEST_F(BekobuildEvalTest, SourcePackage) {
+  ASSERT_TRUE(self->package);
   ASSERT_EQ(2, self->package->size);
   ASSERT_STREQ("echo package: $name", string_vector_at(self->package, 0));
   ASSERT_STREQ("echo package: $version", string_vector_at(self->package, 1));
+}
+
+TEST_F(BekobuildEvalTest, ExpandedName) {
+  ASSERT_TRUE(expanded->name);
+  ASSERT_STREQ("package-name", expanded->name);
+}
+
+TEST_F(BekobuildEvalTest, ExpandedVersion) {
+  ASSERT_TRUE(expanded->version);
+  ASSERT_STREQ("1.2.3", expanded->version);
 }
 
 TEST_F(BekobuildEvalTest, ExpandedBuild) {
