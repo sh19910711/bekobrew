@@ -1,0 +1,14 @@
+name: hello
+version: 2.9
+release: 1
+
+sources:
+  - http://ftp.gnu.org/gnu/$name/$name-$version.tar.gz
+sums:
+  - ecbb7a2214196c57ff9340aa71458e1559abd38f6d8d169666846935df191ea7
+
+build:
+  - cd $srcdir/$pkgname-$pkgver
+  - ./configure --prefix=/usr
+  - make
+

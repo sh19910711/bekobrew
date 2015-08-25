@@ -56,3 +56,14 @@ TEST_F(EvalHelloPackage, Hello) {
 TEST_F(EvalHelloPackage, Package) {
   ASSERT_TRUE(test_output().find("hello-package", 0) != std::string::npos);
 }
+
+class EvalGNUHello : public EvalTest {
+protected:
+  const char *path() {
+    return "./test/eval_test/hello/BEKOBUILD";
+  }
+};
+
+TEST_F(EvalGNUHello, Install) {
+  std::cout << test_output() << std::endl;
+}
