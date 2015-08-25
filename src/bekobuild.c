@@ -115,6 +115,10 @@ static struct string_vector_t **resolve_seq(struct bekobuild_t *self, const char
     return &self->build;
   } else if (!strcmp(key, "package")) {
     return &self->package;
+  } else if (!strcmp(key, "sources")) {
+    return &self->sources;
+  } else if (!strcmp(key, "sums")) {
+    return &self->sums;
   }
   fprintf(stderr, "WARN: BEKOBUILD Unknown Key: %s\n", key);
   return NULL;
