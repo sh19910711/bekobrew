@@ -113,5 +113,6 @@ protected:
 };
 
 TEST_F(ScriptHelloWorld, Test) {
-  ASSERT_TRUE(strstr(script, "echo hello") != NULL);
+  ASSERT_TRUE(strstr(script, "echo hello\n") != NULL);
+  ASSERT_TRUE(strstr(script, "echo world\n") != NULL);
 }
