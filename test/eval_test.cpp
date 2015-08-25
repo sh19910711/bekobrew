@@ -12,9 +12,11 @@ protected:
   virtual void SetUp() {
     fp = fopen(path(), "r");
     struct bekobuild_t *bekobuild_src = bekobuild_new();
+
     bekobuild_open(bekobuild_src, fp);
     bekobuild = bekobuild_expand(bekobuild_src);
     bekobuild_free(bekobuild_src);
+
     eval(bekobuild);
   }
 
