@@ -1,8 +1,6 @@
 #include "bekobuild.h"
 #include "context.h"
 
-#include <unistd.h>
-
 static yaml_parser_t *new_parser();
 static void init_parser(yaml_parser_t *, FILE *);
 static char *to_string(yaml_token_t *);
@@ -48,6 +46,9 @@ int bekobuild_open(struct bekobuild_t *self, FILE* file) {
 struct bekobuild_t *bekobuild_expand(struct bekobuild_t *self) {
   struct context_t *context = get_context(self);
   struct bekobuild_t *expanded = bekobuild_new();
+
+  expanded->srcdir = copy_attribute(self->srcdir);
+  expanded->pkgdir = copy_attribute(self->pkgdir);
 
   expanded->name    = copy_attribute(self->name);
   expanded->version = copy_attribute(self->version);
@@ -252,6 +253,10 @@ static void update_system_attributes(struct bekobuild_t *self) {
   char cwd[256];
 
   getcwd(cwd, 256);
-  sprintf(buf, "%s/%s", cwd, self->name);
+
+  sprintf(buf, "%s/%s/src", cwd, self->name);
   update_system_attribute(&self->srcdir, buf);
+
+  sprintf(buf, "%s/%s/pkg/%s", cwd, self->name, self->name);
+  update_system_attribute(&self->pkgdir, buf);
 }
