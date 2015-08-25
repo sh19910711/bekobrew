@@ -1,4 +1,11 @@
 name: fake-package
+version: 1.2
+
+sources:
+  - http://localhost:8080/path/to/package.tar.gz
+
+sums:
+  - sha-1-sum
 
 # comment
 build:

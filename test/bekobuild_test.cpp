@@ -31,16 +31,32 @@ protected:
 };
 
 TEST_F(BekobuildSimplePackage, Name) {
+  ASSERT_TRUE(self->name);
   ASSERT_STREQ("fake-package", self->name);
 }
 
+TEST_F(BekobuildSimplePackage, Sources) {
+  ASSERT_TRUE(self->sources);
+  ASSERT_EQ(1, self->sources->size);
+  ASSERT_STREQ("http://localhost:8080/path/to/package.tar.gz",
+               string_vector_at(self->sources, 0));
+}
+
+TEST_F(BekobuildSimplePackage, Sums) {
+  ASSERT_TRUE(self->sums);
+  ASSERT_EQ(1, self->sums->size);
+  ASSERT_STREQ("sha-1-sum", string_vector_at(self->sums, 0));
+}
+
 TEST_F(BekobuildSimplePackage, Build) {
+  ASSERT_TRUE(self->build);
   ASSERT_EQ(2, self->build->size);
   ASSERT_STREQ("./configure", string_vector_at(self->build, 0));
   ASSERT_STREQ("make", string_vector_at(self->build, 1));
 }
 
 TEST_F(BekobuildSimplePackage, Package) {
+  ASSERT_TRUE(self->package);
   ASSERT_EQ(1, self->package->size);
   ASSERT_STREQ("make install", string_vector_at(self->package, 0));
 }
