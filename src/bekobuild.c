@@ -90,6 +90,7 @@ static struct string_vector_t *parse_seq(yaml_parser_t *parser) {
         break;
 
       default:
+        fprintf(stderr, "WARN: YAML Unknown Token: %d\n", token.type);
         return NULL;
     }
 
