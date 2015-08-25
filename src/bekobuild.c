@@ -31,6 +31,8 @@ void bekobuild_free(struct bekobuild_t *self) {
   free_seq(self->package);
   free_seq(self->sources);
   free_seq(self->sums);
+  free_string(self->srcdir);
+  free_string(self->pkgdir);
   free_parser(self->parser);
   free(self);
 }
