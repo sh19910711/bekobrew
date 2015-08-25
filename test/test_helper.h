@@ -4,6 +4,7 @@
 #include <gtest/gtest.h>
 #include <gtest/internal/gtest-port.h>
 #include <sstream>
+#include <unistd.h>
 
 static inline void test_capture() {
   testing::internal::CaptureStdout();
