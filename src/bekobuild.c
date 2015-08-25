@@ -44,6 +44,8 @@ struct bekobuild_t *bekobuild_expand(struct bekobuild_t *self) {
   expanded->version = copy_attribute(self->version);
   expanded->build   = context_expand_string_vector(context, self->build);
   expanded->package = context_expand_string_vector(context, self->package);
+  expanded->sources = context_expand_string_vector(context, self->sources);
+  expanded->sums    = context_expand_string_vector(context, self->sums);
 
   context_free(context);
   return expanded;
