@@ -26,6 +26,8 @@ void bekobuild_free(struct bekobuild_t *self) {
   free_string(self->version);
   free_seq(self->build);
   free_seq(self->package);
+  free_seq(self->sources);
+  free_seq(self->sums);
   free_parser(self->parser);
   free(self);
 }
