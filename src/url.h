@@ -13,5 +13,6 @@ struct url_t {
 extern struct url_t *url_new();
 extern struct url_t *url_parse(const char *);
 extern void url_free(struct url_t *);
+extern const char *url_get_filename(const struct url_t *url);
 
 #endif

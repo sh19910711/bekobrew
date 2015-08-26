@@ -48,6 +48,10 @@ void url_free(struct url_t *self) {
   free(self);
 }
 
+const char *url_get_filename(const struct url_t *url) {
+  return strrchr(url->path, '/') + 1;
+}
+
 /*** private functions ***/
 
 static inline void free_unless_null(void *p) {
