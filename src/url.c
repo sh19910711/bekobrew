@@ -49,7 +49,8 @@ void url_free(struct url_t *self) {
 }
 
 const char *url_get_filename(const struct url_t *url) {
-  return strrchr(url->path, '/') + 1;
+  const char *res = strrchr(url->path, '/');
+  return res ? res + 1 : NULL;
 }
 
 /*** private functions ***/
