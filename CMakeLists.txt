@@ -13,12 +13,17 @@ FIND_LIBRARY (CURL_LIBRARY NAMES curl)
 ADD_SUBDIRECTORY (${VENDOR}/libyaml)
 INCLUDE_DIRECTORIES (${VENDOR}/libyaml/include)
 
+# liburl
+ADD_SUBDIRECTORY (${VENDOR}/liburl)
+INCLUDE_DIRECTORIES (${VENDOR}/liburl/include)
+
 # bekobrew
+SET (BEKOBREW_LIBS yaml curl url)
 FILE (GLOB BEKOBREW_SOURCES src/*.c src/*/*.c)
 INCLUDE_DIRECTORIES (src/)
 ADD_EXECUTABLE (bekobrew ${BEKOBREW_SOURCES})
 ADD_DEPENDENCIES (bekobrew yaml)
-TARGET_LINK_LIBRARIES (bekobrew yaml curl)
+TARGET_LINK_LIBRARIES (bekobrew ${BEKOBREW_LIBS})
 INSTALL (TARGETS bekobrew RUNTIME DESTINATION bin/)
 
 #
@@ -45,6 +50,5 @@ TARGET_LINK_LIBRARIES (run_test
   gtest
   gtest_main
   pthread
-  yaml
-  curl
+  ${BEKOBREW_LIBS}
   )
