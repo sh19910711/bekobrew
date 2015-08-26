@@ -3,15 +3,29 @@
 
 #include <gtest/gtest.h>
 #include <gtest/internal/gtest-port.h>
+#include <iostream>
 #include <sstream>
-#include <unistd.h>
+#include <fstream>
+#include <cstdio>
+#include <cstdlib>
+
+static inline void test_cp(std::string src, std::string dst) {
+  std::ifstream ifs(src.c_str());
+  std::ofstream ofs(dst.c_str());
+  ofs << ifs.rdbuf() << std::flush;
+}
 
 static inline std::string test_tmpdir() {
   char buf[256];
 
-  FILE *proc = popen("mktemp", "r");
+  FILE *proc = popen("mktemp -d", "r");
   fgets(buf, 256, proc);
   pclose(proc);
+
+  char *p;
+  if (p = strchr(buf, '\n')) {
+    *p = '\0';
+  }
 
   return std::string(buf);
 }
