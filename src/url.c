@@ -19,8 +19,6 @@ struct url_t *url_new() {
 struct url_t *url_parse(const char *url) {
   struct url_t *self = url_new();
   const char *p = url;
-  const char *q;
-  int len;
 
   if (!(p = parse_protocol(self, p))) {
     url_free(self);
