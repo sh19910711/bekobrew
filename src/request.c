@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define BUFFER_SIZE (256 * 1024)
+#define BUFFER_SIZE (1024 * 1024)
 #define URL_SIZE (256)
 
 static size_t write_response(void *, size_t, size_t, void *);
