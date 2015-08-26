@@ -39,3 +39,7 @@ TEST_F(UrlExampleCom, Path) {
   ASSERT_TRUE(self->path);
   ASSERT_STREQ("path/to/file.tar.gz", self->path);
 }
+
+TEST_F(UrlExampleCom, GetFileName) {
+  ASSERT_STREQ("file.tar.gz", url_get_filename(self));
+}
