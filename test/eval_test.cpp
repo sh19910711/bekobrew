@@ -72,17 +72,19 @@ protected:
 
   virtual void SetUp() {
     tmpdir = test_tmpdir();
+    mkdir(tmpdir.c_str(), 0700);
+    test_cp("./test/eval_test/hello/BEKOBUILD", tmpdir + "/BEKOBUILD");
     chdir(tmpdir.c_str());
     EvalTest::SetUp();
   }
 
   virtual void TearDown() {
     EvalTest::TearDown();
-    test_rmdir(tmpdir.c_str());
+    // test_rmdir(tmpdir.c_str());
   }
 
   const char *path() {
-    return "./test/eval_test/hello/BEKOBUILD";
+    return "./BEKOBUILD";
   }
 };
 
