@@ -1,9 +1,11 @@
 #include "eval.h"
+#include "request.h"
 
 #include <sys/stat.h>
 
 static int calc_script_length(struct string_vector_t *commands);
 static void append(char **, const char *);
+static void get_sources(struct string_vector_t *, struct string_vector_t *);
 
 /*** public functions ***/
 
@@ -14,8 +16,9 @@ int eval(struct bekobuild_t *bekobuild) {
   mkdir(bekobuild->srcdir, 0755);
   mkdir(bekobuild->pkgdir, 0755);
 
+  get_sources(bekobuild->sources, bekobuild->sums);
+
   script = eval_get_script(bekobuild->build);
-  printf("script:\n%s\n", script);
   system(script);
   free(script);
 }
@@ -53,4 +56,18 @@ static int calc_script_length(struct string_vector_t *commands) {
     len += strlen(string_vector_at(commands, i)) + 1;
   }
   return len;
+}
+
+static void get_sources(struct string_vector_t *sources, struct string_vector_t *sums) {
+  if (!sources) {
+    return;
+  }
+
+  int i;
+  for (i = 0; i < sources->size; ++i) {
+    const char *url = string_vector_at(sources, i);
+    fprintf(stdin, "URL: %s\n", url);
+    char *res = request(url);
+    free(res);
+  }
 }
