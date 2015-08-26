@@ -4,3 +4,6 @@
 [submodule "googletest"]
 	path = vendor/gtest
 	url = https://chromium.googlesource.com/external/googletest.git
+[submodule "vendor/liburl"]
+	path = vendor/liburl
+	url = https://github.com/sh19910711/liburl.git
