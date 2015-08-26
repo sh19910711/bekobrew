@@ -149,6 +149,8 @@ static inline void copy_string_pointer(char **dst, char *p) {
 static inline void copy_seq_pointer(struct string_vector_t **dst, struct string_vector_t *p) {
   if (dst && p) {
     *dst = p;
+  } else if (p) {
+    string_vector_free(p);
   }
 }
 
