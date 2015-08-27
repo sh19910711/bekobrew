@@ -6,9 +6,9 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-static int calc_script_length(struct string_vector_t *commands);
+static int calc_script_length(const struct string_vector_t *commands);
 static void append(char **, const char *);
-static void get_sources(const char *, struct string_vector_t *, struct string_vector_t *);
+static void get_sources(const char *, const struct string_vector_t *, const struct string_vector_t *);
 static int mkdir_p(const char *path, const mode_t mode);
 
 /*** public functions ***/
@@ -61,7 +61,7 @@ static void append(char **t, const char *s) {
   *t = p;
 }
 
-static int calc_script_length(struct string_vector_t *commands) {
+static int calc_script_length(const struct string_vector_t *commands) {
   int len = 1;
   int i;
   for (i = 0; i < commands->size; ++ i) {
@@ -97,8 +97,8 @@ static void decompress(const char *path) {
   free(parent);
 }
 
-static void get_sources(const char *srcdir, struct string_vector_t *sources,
-                        struct string_vector_t *sums) {
+static void get_sources(const char *srcdir, const struct string_vector_t *sources,
+                        const struct string_vector_t *sums) {
   if (!sources) {
     return;
   }
