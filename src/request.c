@@ -4,8 +4,6 @@
 #include <stdio.h>
 #include <string.h>
 
-static size_t download(const char *buf, size_t size, size_t n, void *stream);
-
 /*** public functions ***/
 
 void request_download(const char *dst, const char *url) {
@@ -15,6 +13,7 @@ void request_download(const char *dst, const char *url) {
 
   FILE *fp = fopen(dst, "w");
 
+  curl_global_init(CURL_GLOBAL_ALL);
   curl = curl_easy_init();
   curl_easy_setopt(curl, CURLOPT_URL, url);
   curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, fwrite);
