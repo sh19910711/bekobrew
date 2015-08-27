@@ -8,6 +8,7 @@
 #include <fstream>
 #include <cstdio>
 #include <cstdlib>
+#include <unistd.h>
 #include <ftw.h>
 
 static inline std::string test_cwd() {
