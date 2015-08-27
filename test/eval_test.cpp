@@ -66,35 +66,6 @@ TEST_F(EvalHelloPackage, Package) {
   ASSERT_TRUE(test_output().find("hello-package", 0) != std::string::npos);
 }
 
-class EvalGNUHello : public EvalTest {
-protected:
-  std::string curdir;
-  std::string tmpdir;
-
-  virtual void SetUp() {
-    curdir = test_cwd();
-    tmpdir = test_tmpdir();
-    mkdir(tmpdir.c_str(), 0700);
-    test_cp("./test/eval_test/hello/BEKOBUILD", tmpdir + "/BEKOBUILD");
-    chdir(tmpdir.c_str());
-    EvalTest::SetUp();
-  }
-
-  virtual void TearDown() {
-    EvalTest::TearDown();
-    chdir(curdir.c_str());
-    // test_rmdir(tmpdir.c_str());
-  }
-
-  const char *path() {
-    return "./BEKOBUILD";
-  }
-};
-
-TEST_F(EvalGNUHello, Install) {
-  std::cout << "test_tmpdir: " << tmpdir << std::endl;
-}
-
 class GetScriptTest : public ::testing::Test {
 protected:
   struct string_vector_t *commands;
