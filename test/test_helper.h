@@ -22,18 +22,8 @@ static inline void test_cp(std::string src, std::string dst) {
 }
 
 static inline std::string test_tmpdir() {
-  char buf[256];
-
-  FILE *proc = popen("mktemp -d", "r");
-  fgets(buf, 256, proc);
-  pclose(proc);
-
-  char *p;
-  if (p = strchr(buf, '\n')) {
-    *p = '\0';
-  }
-
-  return std::string(buf);
+  char buf[256] = "/tmp/bekobrew.test.XXXXXX";
+  return mkdtemp(buf);
 }
 
 static inline void test_rmdir(const char *path) {
