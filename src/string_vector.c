@@ -33,7 +33,7 @@ void string_vector_push(struct string_vector_t *self, char *item) {
   self->data[self->size++] = item;
 }
 
-const char *string_vector_at(struct string_vector_t *self, int k) {
+const char *string_vector_at(const struct string_vector_t *self, int k) {
   return self->data[k];
 }
 
