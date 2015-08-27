@@ -22,13 +22,16 @@ static int mkdir_p(const char *path, const mode_t mode) {
   }
   char *s = strdup(path);
   char *p = s;
-  char *q = p;
+  char *q;
   while (q = strchr(p, '/')) {
     *q = '\0';
-    mkdir(s, mode);
+    if (*s != '\0') {
+      mkdir(s, mode);
+    }
     *q = '/';
     p = q + 1;
   }
+  mkdir(s, mode);
 }
 
 int eval(struct bekobuild_t *bekobuild) {
