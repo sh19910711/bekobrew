@@ -68,9 +68,11 @@ TEST_F(EvalHelloPackage, Package) {
 
 class EvalGNUHello : public EvalTest {
 protected:
+  std::string curdir;
   std::string tmpdir;
 
   virtual void SetUp() {
+    curdir = test_cwd();
     tmpdir = test_tmpdir();
     mkdir(tmpdir.c_str(), 0700);
     test_cp("./test/eval_test/hello/BEKOBUILD", tmpdir + "/BEKOBUILD");
@@ -80,6 +82,7 @@ protected:
 
   virtual void TearDown() {
     EvalTest::TearDown();
+    chdir(curdir.c_str());
     // test_rmdir(tmpdir.c_str());
   }
 
