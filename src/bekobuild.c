@@ -261,8 +261,8 @@ static void update_system_attributes(struct bekobuild_t *self) {
   getcwd(cwd, 256);
 
   sprintf(buf, "%s/%s/src", cwd, self->name);
-  update_system_attribute(&self->srcdir, buf);
+  self->srcdir = strdup(buf);
 
   sprintf(buf, "%s/%s/pkg/%s", cwd, self->name, self->name);
-  update_system_attribute(&self->pkgdir, buf);
+  self->pkgdir = strdup(buf);
 }
