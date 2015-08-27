@@ -9,6 +9,12 @@
 #include <cstdio>
 #include <cstdlib>
 
+static inline std::string test_cwd() {
+  char buf[256];
+  getcwd(buf, 256);
+  return std::string(buf);
+}
+
 static inline void test_cp(std::string src, std::string dst) {
   std::ifstream ifs(src.c_str());
   std::ofstream ofs(dst.c_str());
