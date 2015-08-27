@@ -8,6 +8,7 @@
 #include <fstream>
 #include <cstdio>
 #include <cstdlib>
+#include <ftw.h>
 
 static inline std::string test_cwd() {
   char buf[256];
@@ -26,10 +27,13 @@ static inline std::string test_tmpdir() {
   return mkdtemp(buf);
 }
 
+static int test_ftw_remove(const char *path, const struct stat *st, int t, struct FTW *b) {
+  remove(path);
+  return 0;
+}
+
 static inline void test_rmdir(const char *path) {
-  std::stringstream ss;
-  ss << "rm -r " << path;
-  system(ss.str().c_str());
+  nftw(path, test_ftw_remove, 20, 0);
 }
 
 static inline void test_capture() {
