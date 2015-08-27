@@ -32,6 +32,7 @@ static int mkdir_p(const char *path, const mode_t mode) {
     p = q + 1;
   }
   mkdir(s, mode);
+  free(s);
 }
 
 int eval(struct bekobuild_t *bekobuild) {
