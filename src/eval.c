@@ -108,11 +108,10 @@ static void get_sources(const char *srcdir, struct string_vector_t *sources,
   int i;
   for (i = 0; i < sources->size; ++i) {
     const char *url_str = string_vector_at(sources, i);
-    char *res = request(url_str);
     struct url_t *url = url_parse(url_str);
-    write_file(srcdir, url_get_filename(url), res);
-
+    char path[256];
+    sprintf(path, "%s/%s", srcdir, url_get_filename(url));
+    request_download(path, url_str);
     url_free(url);
-    free(res);
   }
 }
