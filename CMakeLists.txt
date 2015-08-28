@@ -4,6 +4,11 @@ PROJECT (bekobrew)
 INCLUDE (CheckFunctionExists)
 INCLUDE (ExternalProject)
 
+CHECK_FUNCTION_EXISTS (fmemopen HAVE_FMEMOPEN)
+IF (HAVE_FMEMOPEN)
+  ADD_DEFINITIONS (-DHAVE_FMEMOPEN)
+ENDIF ()
+
 SET (VENDOR ${CMAKE_SOURCE_DIR}/vendor)
 
 # curl
