@@ -47,7 +47,6 @@ ELSE ()
   EXTERNALPROJECT_GET_PROPERTY (googletest binary_dir)
   LINK_DIRECTORIES (${binary_dir})
   SET (GTEST_BOTH_LIBRARIES gtest gtest_main)
-  ADD_DEPENDENCIES (run_test googletest)
 ENDIF ()
 
 FILE (GLOB TESTING_SOURCES ${BEKOBREW_SOURCES} test/*_test.cpp test/*/*_test.cpp)
