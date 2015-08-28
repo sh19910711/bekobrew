@@ -33,26 +33,30 @@ INSTALL (TARGETS bekobrew RUNTIME DESTINATION bin/)
 #
 # Testing Configuration
 #
-
-# GoogleTest
-EXTERNALPROJECT_ADD (googletest
-  GIT_REPOSITORY "${VENDOR}/gtest"
-  PREFIX ${CMAKE_CURRENT_BINARY_DIR}/gtest
-  INSTALL_COMMAND ""
-  )
-EXTERNALPROJECT_GET_PROPERTY (googletest source_dir)
-INCLUDE_DIRECTORIES (${source_dir}/include)
-EXTERNALPROJECT_GET_PROPERTY (googletest binary_dir)
-LINK_DIRECTORIES (${binary_dir})
-
 FILE (GLOB TESTING_SOURCES ${BEKOBREW_SOURCES} test/*_test.cpp test/*/*_test.cpp)
 LIST (REMOVE_ITEM TESTING_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/main.c")
-
 ADD_EXECUTABLE (run_test ${TESTING_SOURCES})
-ADD_DEPENDENCIES (run_test googletest)
+
+# GoogleTest
+FIND_PACKAGE(GTest)
+IF (GTest_FOUND)
+  INCLUDE_DIRECTORIES (${GTEST_INCLUDE_DIRS})
+ELSE ()
+  EXTERNALPROJECT_ADD (googletest
+    GIT_REPOSITORY "${VENDOR}/gtest"
+    PREFIX ${CMAKE_CURRENT_BINARY_DIR}/gtest
+    INSTALL_COMMAND ""
+    )
+  EXTERNALPROJECT_GET_PROPERTY (googletest source_dir)
+  INCLUDE_DIRECTORIES (${source_dir}/include)
+  EXTERNALPROJECT_GET_PROPERTY (googletest binary_dir)
+  LINK_DIRECTORIES (${binary_dir})
+  SET (GTEST_BOTH_LIBRARIES gtest gtest_main)
+  ADD_DEPENDENCIES (run_test googletest)
+ENDIF ()
+
 TARGET_LINK_LIBRARIES (run_test
-  gtest
-  gtest_main
+  ${GTEST_BOTH_LIBRARIES}
   pthread
   ${BEKOBREW_LIBS}
   )
